@@ -1,0 +1,39 @@
+--
+-- Module: mult
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module mult
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    mult: nat * nat -> nat
+    mult (x, y) ==
+        x*y
+    pre x > 0
+
+end mult
