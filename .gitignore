@@ -1,0 +1,6 @@
+*.tex
+*.opt
+*.prj
+*.wgm
+*_anonym.h
+*_anonym.cpp

@@ -1,0 +1,44 @@
+--
+-- Module: summation
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module summation
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    Summation(n: nat, a:seq of nat) s: nat
+    pre n = len a and n >= 1
+    post s = NatSeqSum(a);
+    NatSeqSum: seq of nat -> nat
+    NatSeqSum(s) ==
+        cases s :
+            [] -> 0,
+            others -> hd s + NatSeqSum(s)
+        end
+
+end summation
