@@ -1,0 +1,40 @@
+--
+-- Module: Quotient
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module Quotient
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    Quotient(x,y:nat) z:nat*nat
+    pre y > 0
+    post let mk_(q,r)=z in
+         x = q*y + r and
+         0<=r and r<y
+
+end Quotient
