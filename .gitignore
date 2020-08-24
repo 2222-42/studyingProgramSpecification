@@ -4,3 +4,5 @@
 *.wgm
 *_anonym.h
 *_anonym.cpp
+*.vscode
+*.vs
