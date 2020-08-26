@@ -1,0 +1,45 @@
+--
+-- Module: gcd
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module gcd
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    gcd(x:nat1, y:nat1) z:nat1
+    post z = Max(Cds(x,y));
+
+Cds(x:nat1, y:nat1) nset: set of nat1
+post forall z in set nset &
+            exists n:nat1 & x=n*z and
+            exists m:nat & y=m*z;
+
+Max(ns: set of nat1) mx:nat1
+post mx in set ns and forall n in set ns & mx>=n
+
+end gcd
