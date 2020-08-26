@@ -1,0 +1,31 @@
+--
+-- Module: exchangeFn
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module exchangeFn
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+
+types
+
+values
+
+operations
+
+functions
+    exchangeFn(t:nat*nat) z:nat*nat
+    post let mk_(x,y)=t in z=mk_(y,x)
+
+end exchangeFn
