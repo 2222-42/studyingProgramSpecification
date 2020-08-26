@@ -1,0 +1,38 @@
+--
+-- Module: exponent
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module exponent
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    exponent : nat*nat -> nat
+    exponent(m,n) ==
+        m**n
+
+end exponent
