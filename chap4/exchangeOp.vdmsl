@@ -1,0 +1,36 @@
+--
+-- Module: exchangeOp
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module exchangeOp
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state vars of
+  x : nat
+  y : nat
+end
+
+types
+
+values
+
+operations
+    exchange()
+    ext wr x,y:nat
+    post x=y~ and y=x~
+
+functions
+
+end exchangeOp
