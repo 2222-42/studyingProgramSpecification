@@ -1,0 +1,40 @@
+--
+-- Module: fact
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module fact
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    fact : nat -> nat
+    fact(n) ==
+        cases n :
+            0 -> 1,
+            others -> n * fact(n-1)
+        end
+end fact
