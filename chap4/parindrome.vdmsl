@@ -1,0 +1,37 @@
+--
+-- Module: parindrome
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module parindrome
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    parindrome() X:seq of int
+    post forall k in set inds X & X(k) = X(len X + 1 - k)
+
+end parindrome
