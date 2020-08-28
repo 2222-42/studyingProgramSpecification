@@ -1,0 +1,56 @@
+--
+-- Module: MagicSqr
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module MagicSqr
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    MagicSqr() X:seq of seq of nat
+    post let n=len X in
+        (forall i in set inds X & len X(i) = n)
+        and (forall i,j in set inds X & 1<=X(i)(j) and X(i)(j)<=n*n)
+        and (forall i,j,k,l in set inds X &
+                i<>k or j<>l => X(i)(j)<>X(k)(l))
+        and let v = n*(1+n*n)/2 in
+            ((forall i in set inds X &
+                 NatSeqSum(X(i)) = v)
+            and (forall i in set inds X &
+                 NatSeqSum([X(i)(j) | j in set inds X]) = v)
+            and (NatSeqSum([X(i)(i) | i in set inds X]) = v)
+            and NatSeqSum([X(len X + 1 - i)(i) | i in set inds X]) = v
+            );
+
+    NatSeqSum: seq of nat -> nat
+    NatSeqSum(s) ==
+        cases s :
+            [] -> 0,
+            others -> hd s + NatSeqSum(s)
+        end
+
+end MagicSqr
