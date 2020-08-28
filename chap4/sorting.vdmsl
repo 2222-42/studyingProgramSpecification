@@ -1,0 +1,52 @@
+--
+-- Module: sorting
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module sorting
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state array of
+  N : nat1
+  X : seq of int
+end
+
+types
+
+values
+
+operations
+    sorting()
+    ext rd N : nat1
+        wr X : seq of int
+    pre N=len X
+    post ordered(X) and
+         permutation(X, X~)
+
+functions
+    ordered: seq of int -> bool
+    ordered(X) ==
+        forall i,j in set inds X & i<j => X(i) <= X(j);
+    
+    permutation: seq of int * seq of int -> bool
+    permutation(a, b) ==
+        len a = len b and
+        forall n in set elems a &
+                numberof(n, a) = numberof(n,b);
+    
+    numberof: int * seq of int -> nat
+    numberof(n, s) ==
+        card{i| i in set inds s & s(i) = n}
+
+end sorting
