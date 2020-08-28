@@ -1,0 +1,47 @@
+--
+-- Module: MinSubSeqSum
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module MinSubSeqSum
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    MinSubSeqSum( X:seq of int) z:nat*nat
+    pre len X >=1
+    post let mk_(i,j)=z in
+         1<=i and i<=j and j<= len X
+         and forall l, m in set inds X & 
+                    IntSeqSum(X(i,...,j)) <=
+                            IntSeqSum(X(l,...,m));
+
+    IntSeqSum: seq of int -> int
+    IntSeqSum(s) ==
+        if s=[] then 0
+                else hd s + IntSeqSum(tl s)
+
+end MinSubSeqSum
