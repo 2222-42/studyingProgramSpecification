@@ -1,0 +1,39 @@
+--
+-- Module: maximumOp
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module maximumOp
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state valseq of
+  N : nat1
+  x : seq of int
+end
+
+types
+
+values
+
+operations
+    maximumOp () m : nat
+    ext rd N: nat1
+        rd x: seq of int
+    pre N=len x
+    post m in set inds x and
+         forall j in set inds x & x(m)>=x(j)
+
+functions
+
+end maximumOp
