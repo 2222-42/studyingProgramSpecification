@@ -1,0 +1,38 @@
+--
+-- Module: sqroot
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module sqroot
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    sqroot (x: nat) z:nat
+    pre x >= 0
+    post z**2 <= x and x  < (z+1)**2 and z>=0
+
+end sqroot
