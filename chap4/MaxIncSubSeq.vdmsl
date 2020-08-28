@@ -1,0 +1,48 @@
+--
+-- Module: MaxIncSubSeq
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module MaxIncSubSeq
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    MaxIncSubSeq(X: seq of int) z:nat*nat
+    post let mk_(q,p)=z in
+         IncSubSeq(X,q,p)
+         and forall k in set inds X &
+            forall h in set {1,...,len X-1} &
+                IncSubSeq(X,k,h) => p>=h;
+
+
+    IncSubSeq : seq of int * nat * nat -> bool
+    IncSubSeq(X,k,h) ==
+        1<=k and k+h<=len X
+        and forall l,m in set inds X &
+            k<=l and l<m and m<=k+h => X(l)<=X(m)
+
+end MaxIncSubSeq
