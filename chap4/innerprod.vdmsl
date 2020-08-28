@@ -1,0 +1,44 @@
+--
+-- Module: innerprod
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module innerprod
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    innerprod : seq of int * seq of  int -> int
+    innerprod(a,b) ==
+        IntSeqSum([a(i)*b(i) | i in set inds a])
+    pre len a = len b;
+
+    IntSeqSum: seq of int -> int
+    IntSeqSum(s) ==
+        if s=[] then 0
+                else hd s + IntSeqSum(tl s)
+
+end innerprod
