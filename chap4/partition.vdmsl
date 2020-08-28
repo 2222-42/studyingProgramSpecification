@@ -1,0 +1,52 @@
+--
+-- Module: partition
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module partition
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state array of
+  N : nat1
+  x : seq of int
+end
+
+types
+
+values
+
+operations
+    partition()
+    ext rd N : nat1
+        wr x : seq of int
+    pre N = len x
+    post partitioned(x, x~(N+1 div 2) )
+         and permutation(x, x~)
+
+functions
+    partitioned : seq of int * int -> bool
+    partitioned(x,c) ==
+        forall i, j in set inds x &
+                x(i)<c and c<x(j) => i<j;
+
+    permutation: seq of int * seq of int -> bool
+    permutation(a, b) ==
+        len a = len b and
+        forall n in set elems a &
+                numberof(n, a) = numberof(n,b);
+
+    numberof: int * seq of int -> nat
+    numberof(n, s) ==
+        card{i| i in set inds s & s(i) = n}
+end partition
