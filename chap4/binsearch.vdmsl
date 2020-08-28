@@ -1,0 +1,45 @@
+--
+-- Module: binsearch
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module binsearch
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state array of
+  N : nat1
+  a : seq of int
+end
+
+types
+
+values
+
+operations
+    binsearch (x: int) out:bool*[nat]
+    ext rd N : nat1
+        rd a : seq of int
+    pre N=len a and
+        forall i,j in set inds a & i<j => a(i)<=a(j)
+    post (x in set elems a =>
+            let i in set inds a be st a(i)=x
+                  in out=mk_(true,i)
+          and (x not in set elems a =>
+            out=mk_(false, nil)
+          )
+    )
+
+functions
+
+end binsearch
