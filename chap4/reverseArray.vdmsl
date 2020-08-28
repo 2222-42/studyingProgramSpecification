@@ -1,0 +1,38 @@
+--
+-- Module: reverseArray
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module reverseArray
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state array of
+  n : nat
+  X : seq of nat
+end
+
+types
+
+values
+
+operations
+    reverseArray()
+    ext rd n : nat
+        wr X : seq of nat
+    pre n = len X
+    post forall i in set inds X & X(i)=X~(n+1-i)
+
+functions
+
+end reverseArray
