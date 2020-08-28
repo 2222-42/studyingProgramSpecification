@@ -1,0 +1,39 @@
+--
+-- Module: maximum
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module maximum
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    maximum(N:nat1, x: seq of int) m: nat
+    pre N=len x
+    post m in set inds x and
+         forall j in set inds x & x(m)>=x(j)
+
+end maximum
