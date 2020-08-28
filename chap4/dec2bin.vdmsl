@@ -1,0 +1,46 @@
+--
+-- Module: dec2bin
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module dec2bin
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    dec2bin(X: nat) b:seq of nat
+    pre X >= 1
+    post forall i in set inds b & b(i)=1 or b(i)=0
+        and b(1)=1
+        and X = NatSeqSum([b(i)*2**(len b -i) | i in set inds b]);
+    NatSeqSum: seq of nat -> nat
+    NatSeqSum(s) ==
+        cases s :
+            [] -> 0,
+            others -> hd s + NatSeqSum(s)
+        end
+
+end dec2bin
