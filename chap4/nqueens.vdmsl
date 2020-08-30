@@ -1,0 +1,40 @@
+--
+-- Module: nqueens
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module nqueens
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+
+values
+
+operations
+
+functions
+    nqueens(n: nat) X:seq of nat
+    post len X = n
+         and (forall i in set inds X & 1<=X(i) and X(i)<=n )
+         and forall i, j in set inds X &
+                    i<>j => not (X(i)=X(j) or i+X(i)=j+X(j) or i+X(j)=j+X(i))
+
+end nqueens
