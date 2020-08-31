@@ -36,5 +36,9 @@ values
 operations
 
 functions
+    AddAddress: Name * Address * AddressBook -> AddressBook
+    AddAddress(name, address, book) ==
+        book munion {name |-> address}
+    pre name not in set dom(book)
 
 end Address
