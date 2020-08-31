@@ -1,0 +1,40 @@
+--
+-- Module: Address
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module Address
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+    Name = String;
+    Address = String;
+    AddressBook = map Name to Address;
+
+    String = seq of char;
+
+values
+
+operations
+
+functions
+
+end Address
