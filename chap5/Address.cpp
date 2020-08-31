@@ -9,13 +9,7 @@
 
 #include "Address.h"
 
-
-#ifdef DEF_Address_USERIMPL
-
 #include "Address_userimpl.cpp"
-
-
-#endif // DEF_Address_USERIMPL
 
 
 void init_Address () {}
@@ -83,6 +77,28 @@ Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &vdm_Address_name, con
 
 #endif // DEF_Address_pre_FindAddress
 
+#ifndef DEF_Address_pre_IAddAddress
+
+Bool vdm_Address_pre_IAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(!vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_IAddAddress
+
+#ifndef DEF_Address_post_IAddAddress
+
+Bool vdm_Address_post_IAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book, const TYPE_Address_AddressBook &vdm_Address_r) {
+  Map m1_12 (vdm_Address_book);
+  Map m2_13 (Map().Insert(vdm_Address_name, vdm_Address_address));
+  if (!m1_12.IsCompatible(m2_13)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_12.ImpOverride(m2_13);
+  return Bool(vdm_Address_r == m1_12);
+}
+
+#endif // DEF_Address_post_IAddAddress
+
 #ifndef DEF_Address_RAddAddress
 
 type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
@@ -124,6 +140,22 @@ Bool vdm_Address_pre_EFindAddress (const TYPE_Address_Name &vdm_Address_name, co
 }
 
 #endif // DEF_Address_pre_EFindAddress
+
+#ifndef DEF_Address_pre_IFindAddress
+
+Bool vdm_Address_pre_IFindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_IFindAddress
+
+#ifndef DEF_Address_post_IFindAddress
+
+Bool vdm_Address_post_IFindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book, const TYPE_Address_Address &vdm_Address_address) {
+  return Bool(vdm_Address_address == static_cast<const Sequence &>(vdm_Address_book[vdm_Address_name]));
+}
+
+#endif // DEF_Address_post_IFindAddress
 
 #ifndef DEF_Address_RFindAddress
 

@@ -30,11 +30,23 @@ TYPE_Address_Address vdm_Address_FindAddress (const TYPE_Address_Name &, const T
 
 Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 
+TYPE_Address_AddressBook vdm_Address_IAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_pre_IAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_post_IAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &, const TYPE_Address_AddressBook &);
+
 type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
 
 Generic vdm_Address_EFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 
 Bool vdm_Address_pre_EFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
+TYPE_Address_Address vdm_Address_IFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_pre_IFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_post_IFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &, const TYPE_Address_Address &);
 
 type_UU2P vdm_Address_RFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 

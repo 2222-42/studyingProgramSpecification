@@ -60,6 +60,10 @@ functions
         then mk_(AddAddress(name, address, book), <ok>)
         else mk_(EAddAddress(name, address, book), <error>);
 
+    IAddAddress(name: Name, address: Address, book: AddressBook) r: AddressBook
+    pre name not in set dom(book)
+    post r = book munion {name |-> address};
+
     FindAddress: Name * AddressBook -> Address
     FindAddress(name, book) ==
         book(name)
@@ -74,6 +78,10 @@ functions
     RFindAddress(name, book) ==
         if pre_FindAddress(name, book)
         then mk_(FindAddress(name, book), <ok>)
-        else mk_(EFindAddress(name, book), <error>)
+        else mk_(EFindAddress(name, book), <error>);
+
+    IFindAddress(name: Name, book: AddressBook) address: Address
+    pre name in set dom(book)
+    post address = book(name);
 
 end Address
