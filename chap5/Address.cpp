@@ -9,10 +9,35 @@
 
 #include "Address.h"
 
+
+static Map vdm_Address_book;
+
+TYPE_Address_SAddressBook &TYPE_Address_SAddressBook::Init (const type_cLcLM &p1) {
+  this->SetField(1, p1);
+  return * this;
+}
+
+type_cLcLM TYPE_Address_SAddressBook::get_book () const {
+  return this->GetMap(1);
+}
+
+void TYPE_Address_SAddressBook::set_book (const type_cLcLM &p) {
+  this->SetField(1, p);
+}
+
+void init_Address_VDMLib () {
+  VDMGetDefaultRecInfoMap().NewTag(TAG_TYPE_Address_SAddressBook, 1);
+  VDMGetDefaultRecInfoMap().SetSymTag(TAG_TYPE_Address_SAddressBook, L"Address`SAddressBook");
+  AddRecordTag(L"Address`SAddressBook", TAG_TYPE_Address_SAddressBook);
+}
+
 #include "Address_userimpl.cpp"
 
 
-void init_Address () {}
+void init_Address () {
+  init_Address_VDMLib();
+  vdm_Address_book = Map();
+}
 
 #ifndef DEF_Address_AddAddress
 
@@ -194,5 +219,64 @@ type_cLcLMU2P vdm_Address_RAddAddressAlt (const TYPE_Address_Name &vdm_Address_n
 }
 
 #endif // DEF_Address_RAddAddressAlt
+
+#ifndef DEF_Address_init_uSAddressBook
+
+Bool vdm_Address_init_uSAddressBook (const TYPE_Address_SAddressBook &vdm_Address_s) {
+  return Bool(vdm_Address_s == TYPE_Address_SAddressBook().Init(Map()));
+}
+
+#endif // DEF_Address_init_uSAddressBook
+
+#ifndef DEF_Address_pre_SAddAddress
+
+Bool vdm_Address_pre_SAddAddress (const TYPE_Address_Name &var_1_1, const TYPE_Address_Address &var_2_2, const TYPE_Address_SAddressBook &var_3_3) {
+  const Sequence vdm_Address_name (var_1_1);
+  const Sequence vdm_Address_address (var_2_2);
+  const Map vdm_Address_book (var_3_3.GetMap(pos_Address_SAddressBook_book));
+  return Bool(!vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_SAddAddress
+
+#ifndef DEF_Address_post_SAddAddress
+
+Bool vdm_Address_post_SAddAddress (const TYPE_Address_Name &var_1_1, const TYPE_Address_Address &var_2_2, const TYPE_Address_SAddressBook &var_3_3, const TYPE_Address_SAddressBook &var_4_4) {
+  const Sequence vdm_Address_name (var_1_1);
+  const Sequence vdm_Address_address (var_2_2);
+  const Map _vdm_Address_book (var_3_3.GetMap(pos_Address_SAddressBook_book));
+  const Map vdm_Address_book (var_4_4.GetMap(pos_Address_SAddressBook_book));
+  Map m1_12 (_vdm_Address_book);
+  Map m2_13 (Map().Insert(vdm_Address_name, vdm_Address_address));
+  if (!m1_12.IsCompatible(m2_13)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_12.ImpOverride(m2_13);
+  return Bool(vdm_Address_book == m1_12);
+}
+
+#endif // DEF_Address_post_SAddAddress
+
+#ifndef DEF_Address_pre_SFindAddress
+
+Bool vdm_Address_pre_SFindAddress (const TYPE_Address_Name &var_1_1, const TYPE_Address_SAddressBook &var_2_2) {
+  const Sequence vdm_Address_name (var_1_1);
+  const Map vdm_Address_book (var_2_2.GetMap(pos_Address_SAddressBook_book));
+  return Bool(vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_SFindAddress
+
+#ifndef DEF_Address_post_SFindAddress
+
+Bool vdm_Address_post_SFindAddress (const TYPE_Address_Name &var_1_1, const TYPE_Address_Address &var_2_2, const TYPE_Address_SAddressBook &var_3_3, const TYPE_Address_SAddressBook &var_4_4) {
+  const Sequence vdm_Address_name (var_1_1);
+  const Sequence vdm_Address_r (var_2_2);
+  const Map _vdm_Address_book (var_3_3.GetMap(pos_Address_SAddressBook_book));
+  const Map vdm_Address_book (var_4_4.GetMap(pos_Address_SAddressBook_book));
+  return Bool(vdm_Address_r == static_cast<const Sequence &>(vdm_Address_book[vdm_Address_name]));
+}
+
+#endif // DEF_Address_post_SFindAddress
 
 

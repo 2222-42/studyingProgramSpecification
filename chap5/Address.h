@@ -16,6 +16,27 @@
 #include "Address_anonym.h"
 
 
+enum {
+  vdm_Address_SAddressBook = TAG_TYPE_Address_SAddressBook,
+  length_Address_SAddressBook = 1,
+  pos_Address_SAddressBook_book = 1
+};
+
+class TYPE_Address_SAddressBook : public Record {
+public:
+  TYPE_Address_SAddressBook () : Record(TAG_TYPE_Address_SAddressBook, 1) {}
+
+  TYPE_Address_SAddressBook &Init (const type_cLcLM &p1);
+  TYPE_Address_SAddressBook (const Common &c) : Record(c) {}
+
+  const wchar_t * GetTypeName () const   {
+    return L"TYPE_Address_SAddressBook";
+  }
+
+  type_cLcLM get_book () const;
+  void set_book (const type_cLcLM &p);
+};
+
 void init_Address ();
 
 TYPE_Address_AddressBook vdm_Address_AddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
@@ -38,6 +59,12 @@ Bool vdm_Address_post_IAddAddress (const TYPE_Address_Name &, const TYPE_Address
 
 type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
 
+void vdm_Address_SAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &);
+
+Bool vdm_Address_pre_SAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_SAddressBook &);
+
+Bool vdm_Address_post_SAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_SAddressBook &, const TYPE_Address_SAddressBook &);
+
 Generic vdm_Address_EFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 
 Bool vdm_Address_pre_EFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
@@ -50,7 +77,15 @@ Bool vdm_Address_post_IFindAddress (const TYPE_Address_Name &, const TYPE_Addres
 
 type_UU2P vdm_Address_RFindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 
+TYPE_Address_Address vdm_Address_SFindAddress (const TYPE_Address_Name &);
+
+Bool vdm_Address_pre_SFindAddress (const TYPE_Address_Name &, const TYPE_Address_SAddressBook &);
+
+Bool vdm_Address_post_SFindAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_SAddressBook &, const TYPE_Address_SAddressBook &);
+
 type_cLcLMU2P vdm_Address_RAddAddressAlt (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_init_uSAddressBook (const TYPE_Address_SAddressBook &);
 
 
 #endif // _Address_h
