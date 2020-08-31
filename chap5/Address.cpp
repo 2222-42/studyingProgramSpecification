@@ -20,3 +20,48 @@
 
 void init_Address () {}
 
+#ifndef DEF_Address_AddAddress
+
+TYPE_Address_AddressBook vdm_Address_AddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  if (!vdm_Address_pre_AddAddress(vdm_Address_name, vdm_Address_address, vdm_Address_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in AddAddress");
+  }
+  Map m1_9 (vdm_Address_book);
+  Map m2_10 (Map().Insert(vdm_Address_name, vdm_Address_address));
+  if (!m1_9.IsCompatible(m2_10)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_9.ImpOverride(m2_10);
+  return m1_9;
+}
+
+#endif // DEF_Address_AddAddress
+
+#ifndef DEF_Address_pre_AddAddress
+
+Bool vdm_Address_pre_AddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(!vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_AddAddress
+
+#ifndef DEF_Address_FindAddress
+
+TYPE_Address_Address vdm_Address_FindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  if (!vdm_Address_pre_FindAddress(vdm_Address_name, vdm_Address_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in FindAddress");
+  }
+  return static_cast<const Sequence &>(vdm_Address_book[vdm_Address_name]);
+}
+
+#endif // DEF_Address_FindAddress
+
+#ifndef DEF_Address_pre_FindAddress
+
+Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_FindAddress
+
+

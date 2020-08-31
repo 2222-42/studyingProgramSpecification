@@ -18,5 +18,13 @@
 
 void init_Address ();
 
+TYPE_Address_AddressBook vdm_Address_AddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_pre_AddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+TYPE_Address_Address vdm_Address_FindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
 
 #endif // _Address_h
