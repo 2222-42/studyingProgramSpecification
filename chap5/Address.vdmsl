@@ -43,11 +43,6 @@ functions
         book munion {name |-> address}
     pre name not in set dom(book);
 
-    FindAddress: Name * AddressBook -> Address
-    FindAddress(name, book) ==
-        book(name)
-    pre name in set dom(book);
-
     EAddAddress: Name * Address * AddressBook -> AddressBook
     EAddAddress(name, address, book) ==
         book
@@ -63,6 +58,22 @@ functions
     RAddAddressAlt(name, address, book) ==
         if pre_AddAddress(name, address, book)
         then mk_(AddAddress(name, address, book), <ok>)
-        else mk_(EAddAddress(name, address, book), <error>)
+        else mk_(EAddAddress(name, address, book), <error>);
+
+    FindAddress: Name * AddressBook -> Address
+    FindAddress(name, book) ==
+        book(name)
+    pre name in set dom(book);
+
+    EFindAddress: Name * AddressBook -> [Address]
+    EFindAddress(name, book) ==
+        nil
+    pre name not in set dom(book);
+
+    RFindAddress: Name * AddressBook -> [Address] * Report
+    RFindAddress(name, book) ==
+        if pre_FindAddress(name, book)
+        then mk_(FindAddress(name, book), <ok>)
+        else mk_(EFindAddress(name, book), <error>)
 
 end Address

@@ -106,6 +106,44 @@ type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &vdm_Address_name
 
 #endif // DEF_Address_RAddAddress
 
+#ifndef DEF_Address_EFindAddress
+
+Generic vdm_Address_EFindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  if (!vdm_Address_pre_EFindAddress(vdm_Address_name, vdm_Address_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in EFindAddress");
+  }
+  return Nil();
+}
+
+#endif // DEF_Address_EFindAddress
+
+#ifndef DEF_Address_pre_EFindAddress
+
+Bool vdm_Address_pre_EFindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(!vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_EFindAddress
+
+#ifndef DEF_Address_RFindAddress
+
+type_UU2P vdm_Address_RFindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
+  Tuple varRes_3 (2);
+  if (vdm_Address_pre_FindAddress(vdm_Address_name, vdm_Address_book).GetValue()) {
+    varRes_3 = Tuple(2);
+    varRes_3.SetField(1, vdm_Address_FindAddress(vdm_Address_name, vdm_Address_book));
+    varRes_3.SetField(2, Quote(L"ok"));
+  }
+  else {
+    varRes_3 = Tuple(2);
+    varRes_3.SetField(1, vdm_Address_EFindAddress(vdm_Address_name, vdm_Address_book));
+    varRes_3.SetField(2, Quote(L"error"));
+  }
+  return varRes_3;
+}
+
+#endif // DEF_Address_RFindAddress
+
 #ifndef DEF_Address_RAddAddressAlt
 
 type_cLcLMU2P vdm_Address_RAddAddressAlt (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
