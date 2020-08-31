@@ -31,6 +31,8 @@ types
 
     String = seq of char;
 
+    Report = <ok> | <error>
+
 values
 
 operations
@@ -46,5 +48,21 @@ functions
         book(name)
     pre name in set dom(book);
 
+    EAddAddress: Name * Address * AddressBook -> AddressBook
+    EAddAddress(name, address, book) ==
+        book
+    pre name in set dom(book);
+
+    RAddAddress: Name * Address * AddressBook -> AddressBook * Report
+    RAddAddress(name, address, book) ==
+        if name not in set dom(book)
+        then mk_(book munion {name |-> address}, <ok>)
+        else mk_(book, <error>);
+    
+    RAddAddressAlt: Name * Address * AddressBook -> AddressBook * Report
+    RAddAddressAlt(name, address, book) ==
+        if pre_AddAddress(name, address, book)
+        then mk_(AddAddress(name, address, book), <ok>)
+        else mk_(EAddAddress(name, address, book), <error>)
 
 end Address

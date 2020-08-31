@@ -22,9 +22,17 @@ TYPE_Address_AddressBook vdm_Address_AddAddress (const TYPE_Address_Name &, cons
 
 Bool vdm_Address_pre_AddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
 
+TYPE_Address_AddressBook vdm_Address_EAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+Bool vdm_Address_pre_EAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
 TYPE_Address_Address vdm_Address_FindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
 
 Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &, const TYPE_Address_AddressBook &);
+
+type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
+
+type_cLcLMU2P vdm_Address_RAddAddressAlt (const TYPE_Address_Name &, const TYPE_Address_Address &, const TYPE_Address_AddressBook &);
 
 
 #endif // _Address_h

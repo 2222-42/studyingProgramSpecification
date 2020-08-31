@@ -45,6 +45,25 @@ Bool vdm_Address_pre_AddAddress (const TYPE_Address_Name &vdm_Address_name, cons
 
 #endif // DEF_Address_pre_AddAddress
 
+#ifndef DEF_Address_EAddAddress
+
+TYPE_Address_AddressBook vdm_Address_EAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  if (!vdm_Address_pre_EAddAddress(vdm_Address_name, vdm_Address_address, vdm_Address_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in EAddAddress");
+  }
+  return vdm_Address_book;
+}
+
+#endif // DEF_Address_EAddAddress
+
+#ifndef DEF_Address_pre_EAddAddress
+
+Bool vdm_Address_pre_EAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  return Bool(vdm_Address_book.Dom().InSet(vdm_Address_name));
+}
+
+#endif // DEF_Address_pre_EAddAddress
+
 #ifndef DEF_Address_FindAddress
 
 TYPE_Address_Address vdm_Address_FindAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_AddressBook &vdm_Address_book) {
@@ -63,5 +82,47 @@ Bool vdm_Address_pre_FindAddress (const TYPE_Address_Name &vdm_Address_name, con
 }
 
 #endif // DEF_Address_pre_FindAddress
+
+#ifndef DEF_Address_RAddAddress
+
+type_cLcLMU2P vdm_Address_RAddAddress (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  Tuple varRes_4 (2);
+  if (!vdm_Address_book.Dom().InSet(vdm_Address_name)) {
+    varRes_4 = Tuple(2);
+    Map m1_28 (vdm_Address_book);
+    Map m2_29 (Map().Insert(vdm_Address_name, vdm_Address_address));
+    if (!m1_28.IsCompatible(m2_29)) {
+      CGUTIL::RunTime(L"Duplicate entries had different values");
+    }
+    m1_28.ImpOverride(m2_29);
+    varRes_4.SetField(1, m1_28);
+    varRes_4.SetField(2, Quote(L"ok"));
+  }
+  else {
+    varRes_4 = mk_(vdm_Address_book, Quote(L"error"));
+  }
+  return varRes_4;
+}
+
+#endif // DEF_Address_RAddAddress
+
+#ifndef DEF_Address_RAddAddressAlt
+
+type_cLcLMU2P vdm_Address_RAddAddressAlt (const TYPE_Address_Name &vdm_Address_name, const TYPE_Address_Address &vdm_Address_address, const TYPE_Address_AddressBook &vdm_Address_book) {
+  Tuple varRes_4 (2);
+  if (vdm_Address_pre_AddAddress(vdm_Address_name, vdm_Address_address, vdm_Address_book).GetValue()) {
+    varRes_4 = Tuple(2);
+    varRes_4.SetField(1, vdm_Address_AddAddress(vdm_Address_name, vdm_Address_address, vdm_Address_book));
+    varRes_4.SetField(2, Quote(L"ok"));
+  }
+  else {
+    varRes_4 = Tuple(2);
+    varRes_4.SetField(1, vdm_Address_EAddAddress(vdm_Address_name, vdm_Address_address, vdm_Address_book));
+    varRes_4.SetField(2, Quote(L"error"));
+  }
+  return varRes_4;
+}
+
+#endif // DEF_Address_RAddAddressAlt
 
 
