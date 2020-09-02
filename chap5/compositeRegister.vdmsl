@@ -27,10 +27,17 @@ definitions
 types
     Name = token;
     Email = token;
-    Address = token; Telephone = token;
+    Telephone = token;
     Info :: email: Email
             address: Address
-            telephone: Telephone;
+            telephone: [Telephone]
+            age: nat;
+
+    Prefecture = token; City = token; Detail = token;
+    Address :: prefecture: Prefecture
+               city: City
+               detail: Detail;
+
     RegisterBook = map Name to Info;
 
 values
@@ -56,6 +63,31 @@ functions
     FindInfo(name, book) ==
         book(name)
     pre name in set dom(book);
+
+    FindNamesByPrefecture: Prefecture * RegisterBook -> set of Name
+    FindNamesByPrefecture(prefecture, book) ==
+        {n | n in set dom(book) &
+                book(n).address.prefecture = prefecture};
+    
+    FindNamesByPrefectures: set of Prefecture * RegisterBook -> set of Name
+    FindNamesByPrefectures(prefectures, book) ==
+        {n | n in set dom(book) &
+                book(n).address.prefecture in set prefectures};
+    
+    FindNamesByOverAge: nat * RegisterBook -> set of Name
+    FindNamesByOverAge(age, book) ==
+        {n | n in set dom(book) &
+                book(n).age >= age};
+
+    FindNamesByX: Prefecture * nat * RegisterBook -> set of Name
+    FindNamesByX(prefecture, age, book) ==
+        {n | n in set dom(book) &
+                book(n).address.prefecture = prefecture and
+                book(n).age >= age};
+
+    FindNamesAltByX: Prefecture * nat * RegisterBook -> set of Name
+    FindNamesAltByX(prefecture, age, book) ==
+        FindNamesByPrefecture(prefecture, book) inter FindNamesByOverAge(age, book);
 
     FindEmail: Name * RegisterBook -> Email
     FindEmail(name, book) ==

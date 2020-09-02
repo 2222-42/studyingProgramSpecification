@@ -4,16 +4,17 @@
 // Generated at 2020-09-02 by the VDM-SL to C++ Code Generator
 // (v9.0.7 - Sat 09-Jun-2018 09:35:14 +0900)
 //
-// This file was genereted from "E:/VDM-SL/studyingProgramSpecification/chap5/compositeRegister.vdmsl".
+// This file was genereted from "E:\\VDM-SL\\studyingProgramSpecification\\chap5\\compositeRegister.vdmsl".
 
 
 #include "compositeRegister.h"
 
 
-TYPE_compositeRegister_Info &TYPE_compositeRegister_Info::Init (const TYPE_compositeRegister_Email &p1, const TYPE_compositeRegister_Address &p2, const TYPE_compositeRegister_Telephone &p3) {
+TYPE_compositeRegister_Info &TYPE_compositeRegister_Info::Init (const TYPE_compositeRegister_Email &p1, const TYPE_compositeRegister_Address &p2, const Generic &p3, const Int &p4) {
   this->SetField(1, p1);
   this->SetField(2, p2);
   this->SetField(3, p3);
+  this->SetField(4, p4);
   return * this;
 }
 
@@ -26,25 +27,67 @@ void TYPE_compositeRegister_Info::set_email (const TYPE_compositeRegister_Email 
 }
 
 TYPE_compositeRegister_Address TYPE_compositeRegister_Info::get_address () const {
-  return this->GetField(2);
+  return this->GetRecord(2);
 }
 
 void TYPE_compositeRegister_Info::set_address (const TYPE_compositeRegister_Address &p) {
   this->SetField(2, p);
 }
 
-TYPE_compositeRegister_Telephone TYPE_compositeRegister_Info::get_telephone () const {
+Generic TYPE_compositeRegister_Info::get_telephone () const {
   return this->GetField(3);
 }
 
-void TYPE_compositeRegister_Info::set_telephone (const TYPE_compositeRegister_Telephone &p) {
+void TYPE_compositeRegister_Info::set_telephone (const Generic &p) {
+  this->SetField(3, p);
+}
+
+Int TYPE_compositeRegister_Info::get_age () const {
+  return this->GetInt(4);
+}
+
+void TYPE_compositeRegister_Info::set_age (const Int &p) {
+  this->SetField(4, p);
+}
+
+TYPE_compositeRegister_Address &TYPE_compositeRegister_Address::Init (const TYPE_compositeRegister_Prefecture &p1, const TYPE_compositeRegister_City &p2, const TYPE_compositeRegister_Detail &p3) {
+  this->SetField(1, p1);
+  this->SetField(2, p2);
+  this->SetField(3, p3);
+  return * this;
+}
+
+TYPE_compositeRegister_Prefecture TYPE_compositeRegister_Address::get_prefecture () const {
+  return this->GetField(1);
+}
+
+void TYPE_compositeRegister_Address::set_prefecture (const TYPE_compositeRegister_Prefecture &p) {
+  this->SetField(1, p);
+}
+
+TYPE_compositeRegister_City TYPE_compositeRegister_Address::get_city () const {
+  return this->GetField(2);
+}
+
+void TYPE_compositeRegister_Address::set_city (const TYPE_compositeRegister_City &p) {
+  this->SetField(2, p);
+}
+
+TYPE_compositeRegister_Detail TYPE_compositeRegister_Address::get_detail () const {
+  return this->GetField(3);
+}
+
+void TYPE_compositeRegister_Address::set_detail (const TYPE_compositeRegister_Detail &p) {
   this->SetField(3, p);
 }
 
 void init_compositeRegister_VDMLib () {
-  VDMGetDefaultRecInfoMap().NewTag(TAG_TYPE_compositeRegister_Info, 3);
+  VDMGetDefaultRecInfoMap().NewTag(TAG_TYPE_compositeRegister_Info, 4);
   VDMGetDefaultRecInfoMap().SetSymTag(TAG_TYPE_compositeRegister_Info, L"compositeRegister`Info");
   AddRecordTag(L"compositeRegister`Info", TAG_TYPE_compositeRegister_Info);
+  VDMGetDefaultRecInfoMap().NewTag(TAG_TYPE_compositeRegister_Address, 3);
+  VDMGetDefaultRecInfoMap().SetSymTag(TAG_TYPE_compositeRegister_Address, L"compositeRegister`Address");
+  AddRecordTag(L"compositeRegister`Address", TAG_TYPE_compositeRegister_Address);
 }
 
 #ifdef DEF_compositeRegister_USERIMPL
@@ -175,5 +218,85 @@ Bool vdm_compositeRegister_pre_ChangeEmail (const TYPE_compositeRegister_Name &v
 }
 
 #endif // DEF_compositeRegister_pre_ChangeEmail
+
+#ifndef DEF_compositeRegister_FindNamesByX
+
+type_tS vdm_compositeRegister_FindNamesByX (const TYPE_compositeRegister_Prefecture &vdm_compositeRegister_prefecture, const Int &vdm_compositeRegister_age, const TYPE_compositeRegister_RegisterBook &vdm_compositeRegister_book) {
+  Set res_s_5;
+  const Set e1_set_9 (vdm_compositeRegister_book.Dom());
+  Set tmpSet_26 (e1_set_9);
+  Generic tmpe_25;
+  for (bool bb_24 = tmpSet_26.First(tmpe_25); bb_24; bb_24 = tmpSet_26.Next(tmpe_25)) {
+    const Token vdm_compositeRegister_n (tmpe_25);
+    if (((static_cast<const TYPE_compositeRegister_Info &>(vdm_compositeRegister_book[vdm_compositeRegister_n])).GetRecord(pos_compositeRegister_Info_address).GetField(pos_compositeRegister_Address_prefecture) == vdm_compositeRegister_prefecture) ? ((static_cast<const TYPE_compositeRegister_Info &>(vdm_compositeRegister_book[vdm_compositeRegister_n])).GetInt(pos_compositeRegister_Info_age).GetValue() >= vdm_compositeRegister_age.GetValue()) : false) {
+      res_s_5.Insert(vdm_compositeRegister_n);
+    }
+  }
+  return res_s_5;
+}
+
+#endif // DEF_compositeRegister_FindNamesByX
+
+#ifndef DEF_compositeRegister_FindNamesAltByX
+
+type_tS vdm_compositeRegister_FindNamesAltByX (const TYPE_compositeRegister_Prefecture &vdm_compositeRegister_prefecture, const Int &vdm_compositeRegister_age, const TYPE_compositeRegister_RegisterBook &vdm_compositeRegister_book) {
+  return vdm_compositeRegister_FindNamesByPrefecture(vdm_compositeRegister_prefecture, vdm_compositeRegister_book).Intersect(vdm_compositeRegister_FindNamesByOverAge(vdm_compositeRegister_age, vdm_compositeRegister_book));
+}
+
+#endif // DEF_compositeRegister_FindNamesAltByX
+
+#ifndef DEF_compositeRegister_FindNamesByOverAge
+
+type_tS vdm_compositeRegister_FindNamesByOverAge (const Int &vdm_compositeRegister_age, const TYPE_compositeRegister_RegisterBook &vdm_compositeRegister_book) {
+  Set res_s_4;
+  const Set e1_set_8 (vdm_compositeRegister_book.Dom());
+  Set tmpSet_17 (e1_set_8);
+  Generic tmpe_16;
+  for (bool bb_15 = tmpSet_17.First(tmpe_16); bb_15; bb_15 = tmpSet_17.Next(tmpe_16)) {
+    const Token vdm_compositeRegister_n (tmpe_16);
+    if ((static_cast<const TYPE_compositeRegister_Info &>(vdm_compositeRegister_book[vdm_compositeRegister_n])).GetInt(pos_compositeRegister_Info_age).GetValue() >= vdm_compositeRegister_age.GetValue()) {
+      res_s_4.Insert(vdm_compositeRegister_n);
+    }
+  }
+  return res_s_4;
+}
+
+#endif // DEF_compositeRegister_FindNamesByOverAge
+
+#ifndef DEF_compositeRegister_FindNamesByPrefecture
+
+type_tS vdm_compositeRegister_FindNamesByPrefecture (const TYPE_compositeRegister_Prefecture &vdm_compositeRegister_prefecture, const TYPE_compositeRegister_RegisterBook &vdm_compositeRegister_book) {
+  Set res_s_4;
+  const Set e1_set_8 (vdm_compositeRegister_book.Dom());
+  Set tmpSet_18 (e1_set_8);
+  Generic tmpe_17;
+  for (bool bb_16 = tmpSet_18.First(tmpe_17); bb_16; bb_16 = tmpSet_18.Next(tmpe_17)) {
+    const Token vdm_compositeRegister_n (tmpe_17);
+    if ((static_cast<const TYPE_compositeRegister_Info &>(vdm_compositeRegister_book[vdm_compositeRegister_n])).GetRecord(pos_compositeRegister_Info_address).GetField(pos_compositeRegister_Address_prefecture) == vdm_compositeRegister_prefecture) {
+      res_s_4.Insert(vdm_compositeRegister_n);
+    }
+  }
+  return res_s_4;
+}
+
+#endif // DEF_compositeRegister_FindNamesByPrefecture
+
+#ifndef DEF_compositeRegister_FindNamesByPrefectures
+
+type_tS vdm_compositeRegister_FindNamesByPrefectures (const type_tS &vdm_compositeRegister_prefectures, const TYPE_compositeRegister_RegisterBook &vdm_compositeRegister_book) {
+  Set res_s_4;
+  const Set e1_set_8 (vdm_compositeRegister_book.Dom());
+  Set tmpSet_18 (e1_set_8);
+  Generic tmpe_17;
+  for (bool bb_16 = tmpSet_18.First(tmpe_17); bb_16; bb_16 = tmpSet_18.Next(tmpe_17)) {
+    const Token vdm_compositeRegister_n (tmpe_17);
+    if (vdm_compositeRegister_prefectures.InSet((static_cast<const TYPE_compositeRegister_Info &>(vdm_compositeRegister_book[vdm_compositeRegister_n])).GetRecord(pos_compositeRegister_Info_address).GetField(pos_compositeRegister_Address_prefecture))) {
+      res_s_4.Insert(vdm_compositeRegister_n);
+    }
+  }
+  return res_s_4;
+}
+
+#endif // DEF_compositeRegister_FindNamesByPrefectures
 
 
