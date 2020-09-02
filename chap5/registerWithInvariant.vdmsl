@@ -1,0 +1,75 @@
+--
+-- Module: registerWithInvariant
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module registerWithInvariant
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+--state Sigma of
+--  a : nat
+--  b : nat
+--  inv mk_Sigma(x,y) == x >= y
+--  init s == s = mk_Sigma(0,0)
+--end
+
+types
+    Name = token;
+    Email = token;
+    Telephone = token;
+    pInfo :: email: Email
+             address: Address
+             telephone: [Telephone]
+             age: nat;
+
+    Prefecture = token; City = token; Detail = token;
+    Address :: prefecture: Prefecture
+               city: City
+               detail: Detail;
+    
+    Course = token;
+
+    RegisterBook :: courses: set of Course
+                    person: map Name to pInfo
+                    courseReg: map Name to Course;
+
+    RegisterBookInv :: courses: set of Course
+                       person: map Name to pInfo
+                       courseReg: map Name to Course
+    inv r == dom(r.person) = dom(r.courseReg) and
+             rng(r.courseReg) subset r.courses;
+
+    Yen = nat;
+    cInfo :: capacity: nat
+             fee: Yen;
+    RegisterBookAlt :: courses: map Course to cInfo
+                       person: map Name to pInfo
+                       courseReg: map Name to Course
+    inv r == dom(r.person) = dom(r.courseReg) and
+             rng(r.courseReg) subset dom(r.courses);
+values
+
+operations
+
+functions
+    Add: Name * pInfo * Course * RegisterBookInv -> RegisterBookInv
+    Add(name, pinfo, course, book) ==
+        mk_RegisterBookInv(
+            book.courses, book.person munion {name |-> pinfo},
+            book.courseReg munion {name |-> course}
+        )
+    pre name not in set dom(book.person) and course in set book.courses;
+
+
+end registerWithInvariant
