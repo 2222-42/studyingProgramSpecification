@@ -28,5 +28,17 @@ Bool vdm_register_pre_Delete (const TYPE_register_Name &, const TYPE_register_Re
 
 Int vdm_register_Number (const TYPE_register_RegisterBook &);
 
+TYPE_register_Email vdm_register_FindEmail (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_FindEmail (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+
+TYPE_register_RegisterBook vdm_register_ChangeEmail (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_ChangeEmail (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+
+TYPE_register_RegisterBook vdm_register_ChangeEmailAlt (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_ChangeEmailAlt (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+
 
 #endif // _register_h

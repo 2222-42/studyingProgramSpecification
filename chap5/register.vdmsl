@@ -48,4 +48,19 @@ functions
     Number(book) ==
         card dom(book);
 
+    FindEmail: Name * RegisterBook -> Email
+    FindEmail(name, book) ==
+        book(name)
+    pre name in set dom(book);
+
+    ChangeEmail: Name * Email * RegisterBook -> RegisterBook
+    ChangeEmail(name, email, book) ==
+        book ++ {name |-> email}
+    pre name in set dom(book);
+
+    ChangeEmailAlt: Name * Email * RegisterBook -> RegisterBook
+    ChangeEmailAlt(name, email, book) ==
+        Add(name, email, Delete(name, book))
+    pre name in set dom(book);
+
 end register

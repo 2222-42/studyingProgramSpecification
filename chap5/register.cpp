@@ -72,4 +72,65 @@ Int vdm_register_Number (const TYPE_register_RegisterBook &vdm_register_book) {
 
 #endif // DEF_register_Number
 
+#ifndef DEF_register_FindEmail
+
+TYPE_register_Email vdm_register_FindEmail (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_FindEmail(vdm_register_name, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in FindEmail");
+  }
+  return static_cast<const Token &>(vdm_register_book[vdm_register_name]);
+}
+
+#endif // DEF_register_FindEmail
+
+#ifndef DEF_register_pre_FindEmail
+
+Bool vdm_register_pre_FindEmail (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_FindEmail
+
+#ifndef DEF_register_ChangeEmail
+
+TYPE_register_RegisterBook vdm_register_ChangeEmail (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_ChangeEmail(vdm_register_name, vdm_register_email, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in ChangeEmail");
+  }
+  Map varRes_4;
+  Map modmap_5 (Map().Insert(vdm_register_name, vdm_register_email));
+  varRes_4 = vdm_register_book;
+  varRes_4.ImpOverride(modmap_5);
+  return varRes_4;
+}
+
+#endif // DEF_register_ChangeEmail
+
+#ifndef DEF_register_pre_ChangeEmail
+
+Bool vdm_register_pre_ChangeEmail (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_ChangeEmail
+
+#ifndef DEF_register_ChangeEmailAlt
+
+TYPE_register_RegisterBook vdm_register_ChangeEmailAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_ChangeEmailAlt(vdm_register_name, vdm_register_email, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in ChangeEmailAlt");
+  }
+  return vdm_register_Add(vdm_register_name, vdm_register_email, vdm_register_Delete(vdm_register_name, vdm_register_book));
+}
+
+#endif // DEF_register_ChangeEmailAlt
+
+#ifndef DEF_register_pre_ChangeEmailAlt
+
+Bool vdm_register_pre_ChangeEmailAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_ChangeEmailAlt
+
 
