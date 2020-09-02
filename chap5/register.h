@@ -18,9 +18,9 @@
 
 void init_register ();
 
-TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
 
-Bool vdm_register_pre_Add (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+Bool vdm_register_pre_Add (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
 
 TYPE_register_RegisterBook vdm_register_Delete (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 

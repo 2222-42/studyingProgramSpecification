@@ -22,19 +22,25 @@ void init_register () {}
 
 #ifndef DEF_register_Add
 
-TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
-  if (!vdm_register_pre_Add(vdm_register_name, vdm_register_book).GetValue()) {
+TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_Add(vdm_register_name, vdm_register_email, vdm_register_book).GetValue()) {
     CGUTIL::RunTime(L"Precondition failure in Add");
   }
-  return vdm_register_book.Union(mk_set(vdm_register_name));
+  Map m1_9 (vdm_register_book);
+  Map m2_10 (Map().Insert(vdm_register_name, vdm_register_email));
+  if (!m1_9.IsCompatible(m2_10)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_9.ImpOverride(m2_10);
+  return m1_9;
 }
 
 #endif // DEF_register_Add
 
 #ifndef DEF_register_pre_Add
 
-Bool vdm_register_pre_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
-  return Bool(!vdm_register_book.InSet(vdm_register_name));
+Bool vdm_register_pre_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(!vdm_register_book.Dom().InSet(vdm_register_name));
 }
 
 #endif // DEF_register_pre_Add
@@ -45,7 +51,7 @@ TYPE_register_RegisterBook vdm_register_Delete (const TYPE_register_Name &vdm_re
   if (!vdm_register_pre_Delete(vdm_register_name, vdm_register_book).GetValue()) {
     CGUTIL::RunTime(L"Precondition failure in Delete");
   }
-  return vdm_register_book.Diff(mk_set(vdm_register_name));
+  return vdm_register_book.DomRestrictedBy(mk_set(vdm_register_name));
 }
 
 #endif // DEF_register_Delete
@@ -53,7 +59,7 @@ TYPE_register_RegisterBook vdm_register_Delete (const TYPE_register_Name &vdm_re
 #ifndef DEF_register_pre_Delete
 
 Bool vdm_register_pre_Delete (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
-  return Bool(vdm_register_book.InSet(vdm_register_name));
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
 }
 
 #endif // DEF_register_pre_Delete
@@ -61,7 +67,7 @@ Bool vdm_register_pre_Delete (const TYPE_register_Name &vdm_register_name, const
 #ifndef DEF_register_Number
 
 Int vdm_register_Number (const TYPE_register_RegisterBook &vdm_register_book) {
-  return Int(vdm_register_book.Card());
+  return Int(vdm_register_book.Dom().Card());
 }
 
 #endif // DEF_register_Number

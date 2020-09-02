@@ -26,25 +26,26 @@ definitions
 
 types
     Name = token;
-    RegisterBook = set of Name
+    Email = token;
+    RegisterBook = map Name to Email
 
 values
 
 operations
 
 functions
-    Add: Name * RegisterBook -> RegisterBook
-    Add(name, book) ==
-        book union {name}
-    pre name not in set book;
+    Add: Name * Email * RegisterBook -> RegisterBook
+    Add(name, email, book) ==
+        book munion {name |-> email}
+    pre name not in set dom(book);
 
     Delete: Name * RegisterBook -> RegisterBook
     Delete(name, book) ==
-        book\{name}
-    pre name in set book;
+        {name} <-: book
+    pre name in set dom(book);
 
     Number: RegisterBook -> nat
     Number(book) ==
-        card book;
+        card dom(book);
 
 end register
