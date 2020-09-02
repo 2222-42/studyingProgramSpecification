@@ -27,16 +27,23 @@ definitions
 types
     Name = token;
     Email = token;
-    RegisterBook = map Name to Email
+    Address = token; Telephone = token;
+    Info = Email * Address * Telephone;
+    RegisterBook = map Name to Info;
 
 values
 
 operations
 
 functions
-    Add: Name * Email * RegisterBook -> RegisterBook
-    Add(name, email, book) ==
-        book munion {name |-> email}
+    Add: Name * Info * RegisterBook -> RegisterBook
+    Add(name, info, book) ==
+        book munion {name |-> info}
+    pre name not in set dom(book);
+
+    AddAlt: Name * Email * Address * Telephone * RegisterBook -> RegisterBook
+    AddAlt(name, email, address, telephone, book) ==
+        book munion {name |-> mk_(email, address, telephone)}
     pre name not in set dom(book);
 
     Delete: Name * RegisterBook -> RegisterBook
@@ -48,19 +55,33 @@ functions
     Number(book) ==
         card dom(book);
 
+    FindInfo: Name * RegisterBook -> Info
+    FindInfo(name, book) ==
+        book(name)
+    pre name in set dom(book);
+
     FindEmail: Name * RegisterBook -> Email
     FindEmail(name, book) ==
-        book(name)
+        let mk_(email, address, telephone) = book(name)
+        in email
+    pre name in set dom(book);
+
+    FindEmailAlt: Name * RegisterBook -> Email
+    FindEmailAlt(name, book) ==
+        let mk_(email, -, -) = book(name)
+        in email
     pre name in set dom(book);
 
     ChangeEmail: Name * Email * RegisterBook -> RegisterBook
     ChangeEmail(name, email, book) ==
-        book ++ {name |-> email}
+        let mk_(-, address, telephone) = book(name)
+        in book ++ {name |-> mk_(email, address, telephone)}
     pre name in set dom(book);
 
     ChangeEmailAlt: Name * Email * RegisterBook -> RegisterBook
     ChangeEmailAlt(name, email, book) ==
-        Add(name, email, Delete(name, book))
+        let mk_(-, address, telephone) = book(name)
+        in AddAlt(name, email, address, telephone, Delete(name, book))
     pre name in set dom(book);
 
 end register

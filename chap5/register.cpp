@@ -22,12 +22,12 @@ void init_register () {}
 
 #ifndef DEF_register_Add
 
-TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
-  if (!vdm_register_pre_Add(vdm_register_name, vdm_register_email, vdm_register_book).GetValue()) {
+TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Info &vdm_register_info, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_Add(vdm_register_name, vdm_register_info, vdm_register_book).GetValue()) {
     CGUTIL::RunTime(L"Precondition failure in Add");
   }
   Map m1_9 (vdm_register_book);
-  Map m2_10 (Map().Insert(vdm_register_name, vdm_register_email));
+  Map m2_10 (Map().Insert(vdm_register_name, vdm_register_info));
   if (!m1_9.IsCompatible(m2_10)) {
     CGUTIL::RunTime(L"Duplicate entries had different values");
   }
@@ -39,11 +39,36 @@ TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &vdm_regis
 
 #ifndef DEF_register_pre_Add
 
-Bool vdm_register_pre_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
+Bool vdm_register_pre_Add (const TYPE_register_Name &vdm_register_name, const TYPE_register_Info &vdm_register_info, const TYPE_register_RegisterBook &vdm_register_book) {
   return Bool(!vdm_register_book.Dom().InSet(vdm_register_name));
 }
 
 #endif // DEF_register_pre_Add
+
+#ifndef DEF_register_AddAlt
+
+TYPE_register_RegisterBook vdm_register_AddAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_Address &vdm_register_address, const TYPE_register_Telephone &vdm_register_telephone, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_AddAlt(vdm_register_name, vdm_register_email, vdm_register_address, vdm_register_telephone, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in AddAlt");
+  }
+  Map m1_14 (vdm_register_book);
+  Map m2_15 (Map().Insert(vdm_register_name, mk_(vdm_register_email, vdm_register_address, vdm_register_telephone)));
+  if (!m1_14.IsCompatible(m2_15)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_14.ImpOverride(m2_15);
+  return m1_14;
+}
+
+#endif // DEF_register_AddAlt
+
+#ifndef DEF_register_pre_AddAlt
+
+Bool vdm_register_pre_AddAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_Address &vdm_register_address, const TYPE_register_Telephone &vdm_register_telephone, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(!vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_AddAlt
 
 #ifndef DEF_register_Delete
 
@@ -72,13 +97,38 @@ Int vdm_register_Number (const TYPE_register_RegisterBook &vdm_register_book) {
 
 #endif // DEF_register_Number
 
+#ifndef DEF_register_FindInfo
+
+TYPE_register_Info vdm_register_FindInfo (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_FindInfo(vdm_register_name, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in FindInfo");
+  }
+  return static_cast<const Tuple &>(vdm_register_book[vdm_register_name]);
+}
+
+#endif // DEF_register_FindInfo
+
+#ifndef DEF_register_pre_FindInfo
+
+Bool vdm_register_pre_FindInfo (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_FindInfo
+
 #ifndef DEF_register_FindEmail
 
 TYPE_register_Email vdm_register_FindEmail (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
   if (!vdm_register_pre_FindEmail(vdm_register_name, vdm_register_book).GetValue()) {
     CGUTIL::RunTime(L"Precondition failure in FindEmail");
   }
-  return static_cast<const Token &>(vdm_register_book[vdm_register_name]);
+  Token varRes_3;
+  const Tuple tmpVar_8 (static_cast<const Tuple &>(vdm_register_book[vdm_register_name]));
+  const Token vdm_register_email (tmpVar_8.GetField(1));
+  const Token vdm_register_address (tmpVar_8.GetField(2));
+  const Token vdm_register_telephone (tmpVar_8.GetField(3));
+  varRes_3 = vdm_register_email;
+  return varRes_3;
 }
 
 #endif // DEF_register_FindEmail
@@ -98,9 +148,12 @@ TYPE_register_RegisterBook vdm_register_ChangeEmail (const TYPE_register_Name &v
     CGUTIL::RunTime(L"Precondition failure in ChangeEmail");
   }
   Map varRes_4;
-  Map modmap_5 (Map().Insert(vdm_register_name, vdm_register_email));
+  const Tuple tmpVar_9 (static_cast<const Tuple &>(vdm_register_book[vdm_register_name]));
+  const Token vdm_register_address (tmpVar_9.GetField(2));
+  const Token vdm_register_telephone (tmpVar_9.GetField(3));
+  Map modmap_10 (Map().Insert(vdm_register_name, mk_(vdm_register_email, vdm_register_address, vdm_register_telephone)));
   varRes_4 = vdm_register_book;
-  varRes_4.ImpOverride(modmap_5);
+  varRes_4.ImpOverride(modmap_10);
   return varRes_4;
 }
 
@@ -114,13 +167,41 @@ Bool vdm_register_pre_ChangeEmail (const TYPE_register_Name &vdm_register_name, 
 
 #endif // DEF_register_pre_ChangeEmail
 
+#ifndef DEF_register_FindEmailAlt
+
+TYPE_register_Email vdm_register_FindEmailAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  if (!vdm_register_pre_FindEmailAlt(vdm_register_name, vdm_register_book).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in FindEmailAlt");
+  }
+  Token varRes_3;
+  const Tuple tmpVar_8 (static_cast<const Tuple &>(vdm_register_book[vdm_register_name]));
+  const Token vdm_register_email (tmpVar_8.GetField(1));
+  varRes_3 = vdm_register_email;
+  return varRes_3;
+}
+
+#endif // DEF_register_FindEmailAlt
+
+#ifndef DEF_register_pre_FindEmailAlt
+
+Bool vdm_register_pre_FindEmailAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_RegisterBook &vdm_register_book) {
+  return Bool(vdm_register_book.Dom().InSet(vdm_register_name));
+}
+
+#endif // DEF_register_pre_FindEmailAlt
+
 #ifndef DEF_register_ChangeEmailAlt
 
 TYPE_register_RegisterBook vdm_register_ChangeEmailAlt (const TYPE_register_Name &vdm_register_name, const TYPE_register_Email &vdm_register_email, const TYPE_register_RegisterBook &vdm_register_book) {
   if (!vdm_register_pre_ChangeEmailAlt(vdm_register_name, vdm_register_email, vdm_register_book).GetValue()) {
     CGUTIL::RunTime(L"Precondition failure in ChangeEmailAlt");
   }
-  return vdm_register_Add(vdm_register_name, vdm_register_email, vdm_register_Delete(vdm_register_name, vdm_register_book));
+  Map varRes_4;
+  const Tuple tmpVar_9 (static_cast<const Tuple &>(vdm_register_book[vdm_register_name]));
+  const Token vdm_register_address (tmpVar_9.GetField(2));
+  const Token vdm_register_telephone (tmpVar_9.GetField(3));
+  varRes_4 = vdm_register_AddAlt(vdm_register_name, vdm_register_email, vdm_register_address, vdm_register_telephone, vdm_register_Delete(vdm_register_name, vdm_register_book));
+  return varRes_4;
 }
 
 #endif // DEF_register_ChangeEmailAlt

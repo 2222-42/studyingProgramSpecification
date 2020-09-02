@@ -18,15 +18,23 @@
 
 void init_register ();
 
-TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+TYPE_register_RegisterBook vdm_register_Add (const TYPE_register_Name &, const TYPE_register_Info &, const TYPE_register_RegisterBook &);
 
-Bool vdm_register_pre_Add (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+Bool vdm_register_pre_Add (const TYPE_register_Name &, const TYPE_register_Info &, const TYPE_register_RegisterBook &);
+
+TYPE_register_RegisterBook vdm_register_AddAlt (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_Address &, const TYPE_register_Telephone &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_AddAlt (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_Address &, const TYPE_register_Telephone &, const TYPE_register_RegisterBook &);
 
 TYPE_register_RegisterBook vdm_register_Delete (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 
 Bool vdm_register_pre_Delete (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 
 Int vdm_register_Number (const TYPE_register_RegisterBook &);
+
+TYPE_register_Info vdm_register_FindInfo (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_FindInfo (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 
 TYPE_register_Email vdm_register_FindEmail (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 
@@ -35,6 +43,10 @@ Bool vdm_register_pre_FindEmail (const TYPE_register_Name &, const TYPE_register
 TYPE_register_RegisterBook vdm_register_ChangeEmail (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
 
 Bool vdm_register_pre_ChangeEmail (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
+
+TYPE_register_Email vdm_register_FindEmailAlt (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
+
+Bool vdm_register_pre_FindEmailAlt (const TYPE_register_Name &, const TYPE_register_RegisterBook &);
 
 TYPE_register_RegisterBook vdm_register_ChangeEmailAlt (const TYPE_register_Name &, const TYPE_register_Email &, const TYPE_register_RegisterBook &);
 
