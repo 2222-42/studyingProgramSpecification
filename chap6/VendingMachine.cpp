@@ -85,6 +85,63 @@ void init_VendingMachine () {
   }
 }
 
+#ifndef DEF_VendingMachine_ExistStock
+
+Bool vdm_VendingMachine_ExistStock (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_stock) {
+  if (!vdm_VendingMachine_pre_ExistStock(vdm_VendingMachine_g, vdm_VendingMachine_stock).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in ExistStock");
+  }
+  return Bool((static_cast<const Int &>(vdm_VendingMachine_stock[vdm_VendingMachine_g])).GetValue() > 0);
+}
+
+#endif // DEF_VendingMachine_ExistStock
+
+#ifndef DEF_VendingMachine_pre_ExistStock
+
+Bool vdm_VendingMachine_pre_ExistStock (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_stock) {
+  return Bool(vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g));
+}
+
+#endif // DEF_VendingMachine_pre_ExistStock
+
+#ifndef DEF_VendingMachine_EnoughMoney
+
+Bool vdm_VendingMachine_EnoughMoney (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_price, const TYPE_VendingMachine_Yen &vdm_VendingMachine_amount) {
+  if (!vdm_VendingMachine_pre_EnoughMoney(vdm_VendingMachine_g, vdm_VendingMachine_price, vdm_VendingMachine_amount).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in EnoughMoney");
+  }
+  return Bool(vdm_VendingMachine_amount.GetValue() >= (static_cast<const Int &>(vdm_VendingMachine_price[vdm_VendingMachine_g])).GetValue());
+}
+
+#endif // DEF_VendingMachine_EnoughMoney
+
+#ifndef DEF_VendingMachine_pre_EnoughMoney
+
+Bool vdm_VendingMachine_pre_EnoughMoney (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_price, const TYPE_VendingMachine_Yen &vdm_VendingMachine_amount) {
+  return Bool(vdm_VendingMachine_price.Dom().InSet(vdm_VendingMachine_g));
+}
+
+#endif // DEF_VendingMachine_pre_EnoughMoney
+
+#ifndef DEF_VendingMachine_AvailablePurchase
+
+Bool vdm_VendingMachine_AvailablePurchase (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_stock, const type_tiM &vdm_VendingMachine_price, const TYPE_VendingMachine_Yen &vdm_VendingMachine_amount) {
+  if (!vdm_VendingMachine_pre_AvailablePurchase(vdm_VendingMachine_g, vdm_VendingMachine_stock, vdm_VendingMachine_price, vdm_VendingMachine_amount).GetValue()) {
+    CGUTIL::RunTime(L"Precondition failure in AvailablePurchase");
+  }
+  return Bool(vdm_VendingMachine_ExistStock(vdm_VendingMachine_g, vdm_VendingMachine_stock).GetValue() ? vdm_VendingMachine_EnoughMoney(vdm_VendingMachine_g, vdm_VendingMachine_price, vdm_VendingMachine_amount).GetValue() : false);
+}
+
+#endif // DEF_VendingMachine_AvailablePurchase
+
+#ifndef DEF_VendingMachine_pre_AvailablePurchase
+
+Bool vdm_VendingMachine_pre_AvailablePurchase (const TYPE_VendingMachine_Goods &vdm_VendingMachine_g, const type_tiM &vdm_VendingMachine_stock, const type_tiM &vdm_VendingMachine_price, const TYPE_VendingMachine_Yen &vdm_VendingMachine_amount) {
+  return Bool((vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g)) ? (vdm_VendingMachine_price.Dom().InSet(vdm_VendingMachine_g)) : false);
+}
+
+#endif // DEF_VendingMachine_pre_AvailablePurchase
+
 #ifndef DEF_VendingMachine_init_uVendingMachine
 
 Bool vdm_VendingMachine_init_uVendingMachine (const TYPE_VendingMachine_VendingMachine &var_1_1) {
@@ -117,7 +174,7 @@ Bool vdm_VendingMachine_pre_Purchase (const TYPE_VendingMachine_Goods &var_1_1, 
   const Map vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
   const Map vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
   const Int vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
-  return Bool(((vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g)) ? ((static_cast<const Int &>(vdm_VendingMachine_stock[vdm_VendingMachine_g])).GetValue() > 0) : false) ? (vdm_VendingMachine_amount.GetValue() >= (static_cast<const Int &>(vdm_VendingMachine_price[vdm_VendingMachine_g])).GetValue()) : false);
+  return Bool((vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g)) ? vdm_VendingMachine_AvailablePurchase(vdm_VendingMachine_g, vdm_VendingMachine_stock, vdm_VendingMachine_price, vdm_VendingMachine_amount).GetValue() : false);
 }
 
 #endif // DEF_VendingMachine_pre_Purchase

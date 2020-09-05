@@ -59,6 +59,10 @@ Bool vdm_VendingMachine_pre_Purchase (const TYPE_VendingMachine_Goods &, const T
 
 Bool vdm_VendingMachine_post_Purchase (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
 
+Bool vdm_VendingMachine_ExistStock (const TYPE_VendingMachine_Goods &, const type_tiM &);
+
+Bool vdm_VendingMachine_pre_ExistStock (const TYPE_VendingMachine_Goods &, const type_tiM &);
+
 void vdm_VendingMachine_SetupPrice (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_Yen &);
 
 Bool vdm_VendingMachine_pre_SetupPrice (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_Yen &, const TYPE_VendingMachine_VendingMachine &);
@@ -71,6 +75,10 @@ Bool vdm_VendingMachine_pre_SetupStock (const TYPE_VendingMachine_Goods &, const
 
 Bool vdm_VendingMachine_post_SetupStock (const TYPE_VendingMachine_Goods &, const Int &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
 
+Bool vdm_VendingMachine_EnoughMoney (const TYPE_VendingMachine_Goods &, const type_tiM &, const TYPE_VendingMachine_Yen &);
+
+Bool vdm_VendingMachine_pre_EnoughMoney (const TYPE_VendingMachine_Goods &, const type_tiM &, const TYPE_VendingMachine_Yen &);
+
 void vdm_VendingMachine_InsertCoint (const TYPE_VendingMachine_Coin &);
 
 Bool vdm_VendingMachine_post_InsertCoint (const TYPE_VendingMachine_Coin &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
@@ -80,6 +88,10 @@ void vdm_VendingMachine_RegisterGoods (const TYPE_VendingMachine_Goods &);
 Bool vdm_VendingMachine_pre_RegisterGoods (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &);
 
 Bool vdm_VendingMachine_post_RegisterGoods (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+Bool vdm_VendingMachine_AvailablePurchase (const TYPE_VendingMachine_Goods &, const type_tiM &, const type_tiM &, const TYPE_VendingMachine_Yen &);
+
+Bool vdm_VendingMachine_pre_AvailablePurchase (const TYPE_VendingMachine_Goods &, const type_tiM &, const type_tiM &, const TYPE_VendingMachine_Yen &);
 
 Bool vdm_VendingMachine_init_uVendingMachine (const TYPE_VendingMachine_VendingMachine &);
 

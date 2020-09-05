@@ -62,8 +62,7 @@ operations
         wr amount: Yen
         rd price: map Goods to Yen
     pre g in set dom(stock) and
-        stock(g) > 0 and
-        amount >= price(g)
+        AvailablePurchase(g, stock, price, amount)
     post stock = stock~ ++ {g |-> stock~(g) - 1} and
          amount = amount~ - price(g);
 
@@ -72,5 +71,20 @@ operations
     post amount = 0;
 
 functions
+    AvailablePurchase: Goods * map Goods to nat * map Goods to Yen * Yen -> bool
+    AvailablePurchase(g, stock, price, amount) ==
+        ExistStock(g, stock) and
+        EnoughMoney(g, price,amount)
+    pre g in set dom(stock) and g in set dom(price);
+
+    ExistStock: Goods * map Goods to nat -> bool
+    ExistStock(g, stock) ==
+        stock(g) > 0
+    pre g in set dom(stock);
+
+    EnoughMoney: Goods * map Goods to Yen * Yen -> bool
+    EnoughMoney(g, price, amount) ==
+        amount >= price(g)
+    pre g in set dom(price);
 
 end VendingMachine
