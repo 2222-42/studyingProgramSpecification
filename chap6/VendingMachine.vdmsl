@@ -1,0 +1,42 @@
+--
+-- Module: VendingMachine
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module VendingMachine
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state VendingMachine of
+  stock : map Goods to nat
+  price : map Goods to Yen
+  amount: Yen
+  inv mk_VendingMachine(stock, price, -) ==
+    dom(stock) = dom(price)
+  init mk_VendingMachine(stock, price, amount) ==
+    stock = {|->} and price = {|->} and amount = 0
+end
+
+types
+  Goods = token;
+  Yen = nat;
+  Coint = Yen
+  inv c == c in set {10,50,100,500};
+
+values
+
+operations
+
+functions
+
+end VendingMachine
