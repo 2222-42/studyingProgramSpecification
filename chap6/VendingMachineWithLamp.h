@@ -97,6 +97,16 @@ Bool vdm_VendingMachineWithLamp_inv_Model (const TYPE_VendingMachineWithLamp_Mod
 
 void init_VendingMachineWithLamp ();
 
+void vdm_VendingMachineWithLamp_Return ();
+
+Bool vdm_VendingMachineWithLamp_post_Return (const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+void vdm_VendingMachineWithLamp_Purchase (const TYPE_VendingMachineWithLamp_Goods &);
+
+Bool vdm_VendingMachineWithLamp_pre_Purchase (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+Bool vdm_VendingMachineWithLamp_post_Purchase (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
 Bool vdm_VendingMachineWithLamp_ExistStock (const TYPE_VendingMachineWithLamp_Goods &, const type_tiM &);
 
 Bool vdm_VendingMachineWithLamp_pre_ExistStock (const TYPE_VendingMachineWithLamp_Goods &, const type_tiM &);
@@ -109,9 +119,27 @@ TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_LampStatus (const TY
 
 type_tUM vdm_VendingMachineWithLamp_SellStatus (const TYPE_VendingMachineWithLamp_Model &);
 
+void vdm_VendingMachineWithLamp_SetupPrice (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_Yen &);
+
+Bool vdm_VendingMachineWithLamp_pre_SetupPrice (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_Yen &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+Bool vdm_VendingMachineWithLamp_post_SetupPrice (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_Yen &, const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+void vdm_VendingMachineWithLamp_SetupStock (const TYPE_VendingMachineWithLamp_Goods &, const Int &);
+
+Bool vdm_VendingMachineWithLamp_pre_SetupStock (const TYPE_VendingMachineWithLamp_Goods &, const Int &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+Bool vdm_VendingMachineWithLamp_post_SetupStock (const TYPE_VendingMachineWithLamp_Goods &, const Int &, const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
 Bool vdm_VendingMachineWithLamp_EnoughMoney (const TYPE_VendingMachineWithLamp_Goods &, const type_tiM &, const TYPE_VendingMachineWithLamp_Yen &);
 
 Bool vdm_VendingMachineWithLamp_pre_EnoughMoney (const TYPE_VendingMachineWithLamp_Goods &, const type_tiM &, const TYPE_VendingMachineWithLamp_Yen &);
+
+void vdm_VendingMachineWithLamp_RegisterGoods (const TYPE_VendingMachineWithLamp_Goods &);
+
+Bool vdm_VendingMachineWithLamp_pre_RegisterGoods (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
+Bool vdm_VendingMachineWithLamp_post_RegisterGoods (const TYPE_VendingMachineWithLamp_Goods &, const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
 
 type_tUM vdm_VendingMachineWithLamp_SoldOutStatus (const TYPE_VendingMachineWithLamp_Model &);
 

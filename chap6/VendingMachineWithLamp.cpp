@@ -280,6 +280,49 @@ Bool vdm_VendingMachineWithLamp_init_uVendingMachine (const TYPE_VendingMachineW
 
 #endif // DEF_VendingMachineWithLamp_init_uVendingMachine
 
+#ifndef DEF_VendingMachineWithLamp_post_Return
+
+Bool vdm_VendingMachineWithLamp_post_Return (const TYPE_VendingMachineWithLamp_VendingMachine &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2) {
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_1_1.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_1_1.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  return Bool(vdm_VendingMachineWithLamp_model.GetInt(pos_VendingMachineWithLamp_Model_amount).GetValue() == 0);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_Return
+
+#ifndef DEF_VendingMachineWithLamp_pre_Purchase
+
+Bool vdm_VendingMachineWithLamp_pre_Purchase (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  return Bool((vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock).Dom().InSet(vdm_VendingMachineWithLamp_g)) ? vdm_VendingMachineWithLamp_AvailablePurchase(vdm_VendingMachineWithLamp_g, vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock), vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_price), vdm_VendingMachineWithLamp_model.GetInt(pos_VendingMachineWithLamp_Model_amount)).GetValue() : false);
+}
+
+#endif // DEF_VendingMachineWithLamp_pre_Purchase
+
+#ifndef DEF_VendingMachineWithLamp_post_Purchase
+
+Bool vdm_VendingMachineWithLamp_post_Purchase (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  TYPE_VendingMachineWithLamp_Model tmpRE_8 (_vdm_VendingMachineWithLamp_model);
+  Map val_9;
+  Map modmap_10 (Map().Insert(vdm_VendingMachineWithLamp_g, static_cast<const Int &>(_vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock)[vdm_VendingMachineWithLamp_g]) - Int(1)));
+  val_9 = _vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock);
+  val_9.ImpOverride(modmap_10);
+  tmpRE_8.SetField(pos_VendingMachineWithLamp_Model_stock, val_9);
+  tmpRE_8.SetField(pos_VendingMachineWithLamp_Model_amount, _vdm_VendingMachineWithLamp_model.GetInt(pos_VendingMachineWithLamp_Model_amount) - static_cast<const Int &>(vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_price)[vdm_VendingMachineWithLamp_g]));
+  return Bool(vdm_VendingMachineWithLamp_model == tmpRE_8);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_Purchase
+
 #ifndef DEF_VendingMachineWithLamp_post_InsertCoin
 
 Bool vdm_VendingMachineWithLamp_post_InsertCoin (const TYPE_VendingMachineWithLamp_Coin &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
@@ -294,5 +337,108 @@ Bool vdm_VendingMachineWithLamp_post_InsertCoin (const TYPE_VendingMachineWithLa
 }
 
 #endif // DEF_VendingMachineWithLamp_post_InsertCoin
+
+#ifndef DEF_VendingMachineWithLamp_pre_SetupPrice
+
+Bool vdm_VendingMachineWithLamp_pre_SetupPrice (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_Yen &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const Int vdm_VendingMachineWithLamp_p (var_2_2);
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  return Bool(vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_price).Dom().InSet(vdm_VendingMachineWithLamp_g));
+}
+
+#endif // DEF_VendingMachineWithLamp_pre_SetupPrice
+
+#ifndef DEF_VendingMachineWithLamp_post_SetupPrice
+
+Bool vdm_VendingMachineWithLamp_post_SetupPrice (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_Yen &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3, const TYPE_VendingMachineWithLamp_VendingMachine &var_4_4) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const Int vdm_VendingMachineWithLamp_p (var_2_2);
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_4_4.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_4_4.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  TYPE_VendingMachineWithLamp_Model tmpRE_9 (_vdm_VendingMachineWithLamp_model);
+  Map val_10;
+  Map modmap_11 (Map().Insert(vdm_VendingMachineWithLamp_g, vdm_VendingMachineWithLamp_p));
+  val_10 = _vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_price);
+  val_10.ImpOverride(modmap_11);
+  tmpRE_9.SetField(pos_VendingMachineWithLamp_Model_price, val_10);
+  return Bool(vdm_VendingMachineWithLamp_model == tmpRE_9);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_SetupPrice
+
+#ifndef DEF_VendingMachineWithLamp_pre_SetupStock
+
+Bool vdm_VendingMachineWithLamp_pre_SetupStock (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const Int &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const Int vdm_VendingMachineWithLamp_num (var_2_2);
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  return Bool(vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock).Dom().InSet(vdm_VendingMachineWithLamp_g));
+}
+
+#endif // DEF_VendingMachineWithLamp_pre_SetupStock
+
+#ifndef DEF_VendingMachineWithLamp_post_SetupStock
+
+Bool vdm_VendingMachineWithLamp_post_SetupStock (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const Int &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3, const TYPE_VendingMachineWithLamp_VendingMachine &var_4_4) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const Int vdm_VendingMachineWithLamp_num (var_2_2);
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_4_4.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_4_4.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  TYPE_VendingMachineWithLamp_Model tmpRE_9 (_vdm_VendingMachineWithLamp_model);
+  Map val_10;
+  Map modmap_11 (Map().Insert(vdm_VendingMachineWithLamp_g, vdm_VendingMachineWithLamp_num));
+  val_10 = _vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock);
+  val_10.ImpOverride(modmap_11);
+  tmpRE_9.SetField(pos_VendingMachineWithLamp_Model_stock, val_10);
+  return Bool(vdm_VendingMachineWithLamp_model == tmpRE_9);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_SetupStock
+
+#ifndef DEF_VendingMachineWithLamp_pre_RegisterGoods
+
+Bool vdm_VendingMachineWithLamp_pre_RegisterGoods (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  return Bool(!vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock).Dom().InSet(vdm_VendingMachineWithLamp_g));
+}
+
+#endif // DEF_VendingMachineWithLamp_pre_RegisterGoods
+
+#ifndef DEF_VendingMachineWithLamp_post_RegisterGoods
+
+Bool vdm_VendingMachineWithLamp_post_RegisterGoods (const TYPE_VendingMachineWithLamp_Goods &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachineWithLamp_g (var_1_1);
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  TYPE_VendingMachineWithLamp_Model tmpRE_8 (_vdm_VendingMachineWithLamp_model);
+  Map m1_15 (_vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_stock));
+  Map m2_16 (Map().Insert(vdm_VendingMachineWithLamp_g, Int(0)));
+  if (!m1_15.IsCompatible(m2_16)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_15.ImpOverride(m2_16);
+  tmpRE_8.SetField(pos_VendingMachineWithLamp_Model_stock, m1_15);
+  Map m1_23 (_vdm_VendingMachineWithLamp_model.GetMap(pos_VendingMachineWithLamp_Model_price));
+  Map m2_24 (Map().Insert(vdm_VendingMachineWithLamp_g, Int(0)));
+  if (!m1_23.IsCompatible(m2_24)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_23.ImpOverride(m2_24);
+  tmpRE_8.SetField(pos_VendingMachineWithLamp_Model_price, m1_23);
+  return Bool(vdm_VendingMachineWithLamp_model == tmpRE_8);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_RegisterGoods
 
 
