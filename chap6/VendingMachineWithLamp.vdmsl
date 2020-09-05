@@ -1,0 +1,122 @@
+--
+-- Module: VendingMachineWithLamp
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module VendingMachineWithLamp
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state VendingMachine of
+  model: Model
+  lamp: Lamp
+  inv mk_VendingMachine(model, lamp) ==
+    dom(model.stock) = dom(lamp.soldOut) and
+    lamp = LampStatus(model)
+  init mk_VendingMachine(model, lamp) ==
+    model = mk_Model({|->}, {|->}, 0) and
+    lamp = mk_Lamp({|->}, {|->})
+end
+
+types
+  Model :: stock : map Goods to nat
+           price : map Goods to Yen
+           amount: Yen
+  inv mk_Model(stock, price, -) ==
+    dom(stock) = dom(price);
+  
+  OnOff = <on> | <off>;
+
+  Lamp :: soldOut: map Goods to OnOff
+          sell: map Goods to OnOff
+  inv mk_Lamp(soldOut, sell) ==
+    dom(soldOut) = dom(sell);
+
+  Goods = token;
+  Yen = nat;
+  Coin = Yen
+  inv c == c in set {10,50,100,500};
+
+values
+
+operations
+    RegisterGoods(g: Goods)
+    ext wr stock: map Goods to nat
+        wr price: map Goods to Yen
+    pre g not in set dom(stock)
+    post stock = stock~ munion {g |-> 0} and
+         price = price~ munion {g |-> 0};
+    
+    SetupPrice(g: Goods, p: Yen)
+    ext wr price: map Goods to Yen
+    pre g in set dom(price)
+    post price = price~ ++ {g |-> p};
+
+    SetupStock(g: Goods, num: nat)
+    ext wr stock: map Goods to nat
+    pre g in set dom(stock)
+    post stock = stock~ ++ {g |-> num};
+
+    InsertCoint(c: Coin)
+    ext wr amount: Yen
+    post amount = amount~ + c;
+
+    Purchase(g: Goods)
+    ext wr stock: map Goods to nat
+        wr amount: Yen
+        rd price: map Goods to Yen
+    pre g in set dom(stock) and
+        AvailablePurchase(g, stock, price, amount)
+    post stock = stock~ ++ {g |-> stock~(g) - 1} and
+         amount = amount~ - price(g);
+
+    Return()
+    ext wr amount: Yen
+    post amount = 0;
+
+functions
+    AvailablePurchase: Goods * map Goods to nat * map Goods to Yen * Yen -> bool
+    AvailablePurchase(g, stock, price, amount) ==
+        ExistStock(g, stock) and
+        EnoughMoney(g, price,amount)
+    pre g in set dom(stock) and g in set dom(price);
+
+    ExistStock: Goods * map Goods to nat -> bool
+    ExistStock(g, stock) ==
+        stock(g) > 0
+    pre g in set dom(stock);
+
+    EnoughMoney: Goods * map Goods to Yen * Yen -> bool
+    EnoughMoney(g, price, amount) ==
+        amount >= price(g)
+    pre g in set dom(price);
+
+    LampStatus: Model -> Lamp
+    LampStatus(model) ==
+        mk_Lamp(SoldOutStatus(model), SellStatus(model));
+    
+    SoldOutStatus: Model -> map Goods to OnOff
+    SoldOutStatus(mk_Model(stock, -,-)) ==
+        {g |-> if not ExistStock(g, stock)
+               then <on> else <off> |
+            g in set dom(stock)       
+        };
+    
+    SellStatus: Model -> map Goods to OnOff
+    SellStatus(mk_Model(stock,price, amount)) ==
+        {g |-> if AvailablePurchase(g, stock, price, amount)
+               then <on> else <off> |
+            g in set dom(stock)       
+        };
+
+end VendingMachineWithLamp
