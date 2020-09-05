@@ -51,6 +51,15 @@ values
 
 operations
 
+
+    InsertCoin(c: Coin)
+    ext wr model: Model
+        wr lamp: Lamp
+    post model = mu(model~, amount |-> model~.amount + c) and
+         lamp = LampStatus(model);
+
+
+
 functions
     LampStatus: Model -> Lamp
     LampStatus(model) ==

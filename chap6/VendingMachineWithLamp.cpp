@@ -140,12 +140,7 @@ void init_VendingMachineWithLamp_VDMLib () {
   AddRecordTag(L"VendingMachineWithLamp`VendingMachine", TAG_TYPE_VendingMachineWithLamp_VendingMachine);
 }
 
-#ifdef DEF_VendingMachineWithLamp_USERIMPL
-
 #include "VendingMachineWithLamp_userimpl.cpp"
-
-
-#endif // DEF_VendingMachineWithLamp_USERIMPL
 
 
 void init_VendingMachineWithLamp () {
@@ -284,5 +279,20 @@ Bool vdm_VendingMachineWithLamp_init_uVendingMachine (const TYPE_VendingMachineW
 }
 
 #endif // DEF_VendingMachineWithLamp_init_uVendingMachine
+
+#ifndef DEF_VendingMachineWithLamp_post_InsertCoin
+
+Bool vdm_VendingMachineWithLamp_post_InsertCoin (const TYPE_VendingMachineWithLamp_Coin &var_1_1, const TYPE_VendingMachineWithLamp_VendingMachine &var_2_2, const TYPE_VendingMachineWithLamp_VendingMachine &var_3_3) {
+  const Int vdm_VendingMachineWithLamp_c (var_1_1);
+  const TYPE_VendingMachineWithLamp_Model _vdm_VendingMachineWithLamp_model (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp _vdm_VendingMachineWithLamp_lamp (var_2_2.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  const TYPE_VendingMachineWithLamp_Model vdm_VendingMachineWithLamp_model (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_model));
+  const TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_lamp (var_3_3.GetRecord(pos_VendingMachineWithLamp_VendingMachine_lamp));
+  TYPE_VendingMachineWithLamp_Model tmpRE_9 (_vdm_VendingMachineWithLamp_model);
+  tmpRE_9.SetField(pos_VendingMachineWithLamp_Model_amount, _vdm_VendingMachineWithLamp_model.GetInt(pos_VendingMachineWithLamp_Model_amount) + vdm_VendingMachineWithLamp_c);
+  return Bool((vdm_VendingMachineWithLamp_model == tmpRE_9) ? (vdm_VendingMachineWithLamp_lamp == vdm_VendingMachineWithLamp_LampStatus(vdm_VendingMachineWithLamp_model)) : false);
+}
+
+#endif // DEF_VendingMachineWithLamp_post_InsertCoin
 
 

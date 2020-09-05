@@ -101,6 +101,10 @@ Bool vdm_VendingMachineWithLamp_ExistStock (const TYPE_VendingMachineWithLamp_Go
 
 Bool vdm_VendingMachineWithLamp_pre_ExistStock (const TYPE_VendingMachineWithLamp_Goods &, const type_tiM &);
 
+void vdm_VendingMachineWithLamp_InsertCoin (const TYPE_VendingMachineWithLamp_Coin &);
+
+Bool vdm_VendingMachineWithLamp_post_InsertCoin (const TYPE_VendingMachineWithLamp_Coin &, const TYPE_VendingMachineWithLamp_VendingMachine &, const TYPE_VendingMachineWithLamp_VendingMachine &);
+
 TYPE_VendingMachineWithLamp_Lamp vdm_VendingMachineWithLamp_LampStatus (const TYPE_VendingMachineWithLamp_Model &);
 
 type_tUM vdm_VendingMachineWithLamp_SellStatus (const TYPE_VendingMachineWithLamp_Model &);
