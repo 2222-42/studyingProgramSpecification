@@ -57,13 +57,13 @@ Bool vdm_VendingMachine_inv_VendingMachine (const TYPE_VendingMachine_VendingMac
 
 #endif // DEF_VendingMachine_inv_VendingMachine
 
-#ifndef DEF_VendingMachine_inv_Coint
+#ifndef DEF_VendingMachine_inv_Coin
 
-Bool vdm_VendingMachine_inv_Coint (const TYPE_VendingMachine_Yen &vdm_VendingMachine_c) {
+Bool vdm_VendingMachine_inv_Coin (const TYPE_VendingMachine_Yen &vdm_VendingMachine_c) {
   return Bool(mk_set(Int(10), Int(50), Int(100), Int(500)).InSet(vdm_VendingMachine_c));
 }
 
-#endif // DEF_VendingMachine_inv_Coint
+#endif // DEF_VendingMachine_inv_Coin
 
 
 void init_VendingMachine_VDMLib () {
@@ -72,12 +72,7 @@ void init_VendingMachine_VDMLib () {
   AddRecordTag(L"VendingMachine`VendingMachine", TAG_TYPE_VendingMachine_VendingMachine);
 }
 
-#ifdef DEF_VendingMachine_USERIMPL
-
 #include "VendingMachine_userimpl.cpp"
-
-
-#endif // DEF_VendingMachine_USERIMPL
 
 
 void init_VendingMachine () {
@@ -100,5 +95,177 @@ Bool vdm_VendingMachine_init_uVendingMachine (const TYPE_VendingMachine_VendingM
 }
 
 #endif // DEF_VendingMachine_init_uVendingMachine
+
+#ifndef DEF_VendingMachine_post_Return
+
+Bool vdm_VendingMachine_post_Return (const TYPE_VendingMachine_VendingMachine &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2) {
+  const Map _vdm_VendingMachine_stock (var_1_1.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_1_1.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_1_1.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(vdm_VendingMachine_amount.GetValue() == 0);
+}
+
+#endif // DEF_VendingMachine_post_Return
+
+#ifndef DEF_VendingMachine_pre_Purchase
+
+Bool vdm_VendingMachine_pre_Purchase (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Map vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(((vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g)) ? ((static_cast<const Int &>(vdm_VendingMachine_stock[vdm_VendingMachine_g])).GetValue() > 0) : false) ? (vdm_VendingMachine_amount.GetValue() >= (static_cast<const Int &>(vdm_VendingMachine_price[vdm_VendingMachine_g])).GetValue()) : false);
+}
+
+#endif // DEF_VendingMachine_pre_Purchase
+
+#ifndef DEF_VendingMachine_post_Purchase
+
+Bool vdm_VendingMachine_post_Purchase (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Map _vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  Map var2_7;
+  Map modmap_8 (Map().Insert(vdm_VendingMachine_g, static_cast<const Int &>(_vdm_VendingMachine_stock[vdm_VendingMachine_g]) - Int(1)));
+  var2_7 = _vdm_VendingMachine_stock;
+  var2_7.ImpOverride(modmap_8);
+  return Bool((vdm_VendingMachine_stock == var2_7) ? (vdm_VendingMachine_amount.GetValue() == (_vdm_VendingMachine_amount - static_cast<const Int &>(vdm_VendingMachine_price[vdm_VendingMachine_g])).GetValue()) : false);
+}
+
+#endif // DEF_VendingMachine_post_Purchase
+
+#ifndef DEF_VendingMachine_pre_SetupPrice
+
+Bool vdm_VendingMachine_pre_SetupPrice (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_Yen &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Int vdm_VendingMachine_p (var_2_2);
+  const Map vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(vdm_VendingMachine_price.Dom().InSet(vdm_VendingMachine_g));
+}
+
+#endif // DEF_VendingMachine_pre_SetupPrice
+
+#ifndef DEF_VendingMachine_post_SetupPrice
+
+Bool vdm_VendingMachine_post_SetupPrice (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_Yen &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3, const TYPE_VendingMachine_VendingMachine &var_4_4) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Int vdm_VendingMachine_p (var_2_2);
+  const Map _vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_4_4.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_4_4.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_4_4.GetInt(pos_VendingMachine_VendingMachine_amount));
+  Map var2_7;
+  Map modmap_8 (Map().Insert(vdm_VendingMachine_g, vdm_VendingMachine_p));
+  var2_7 = _vdm_VendingMachine_price;
+  var2_7.ImpOverride(modmap_8);
+  return Bool(vdm_VendingMachine_price == var2_7);
+}
+
+#endif // DEF_VendingMachine_post_SetupPrice
+
+#ifndef DEF_VendingMachine_pre_SetupStock
+
+Bool vdm_VendingMachine_pre_SetupStock (const TYPE_VendingMachine_Goods &var_1_1, const Int &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Int vdm_VendingMachine_num (var_2_2);
+  const Map vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g));
+}
+
+#endif // DEF_VendingMachine_pre_SetupStock
+
+#ifndef DEF_VendingMachine_post_SetupStock
+
+Bool vdm_VendingMachine_post_SetupStock (const TYPE_VendingMachine_Goods &var_1_1, const Int &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3, const TYPE_VendingMachine_VendingMachine &var_4_4) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Int vdm_VendingMachine_num (var_2_2);
+  const Map _vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_4_4.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_4_4.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_4_4.GetInt(pos_VendingMachine_VendingMachine_amount));
+  Map var2_7;
+  Map modmap_8 (Map().Insert(vdm_VendingMachine_g, vdm_VendingMachine_num));
+  var2_7 = _vdm_VendingMachine_stock;
+  var2_7.ImpOverride(modmap_8);
+  return Bool(vdm_VendingMachine_stock == var2_7);
+}
+
+#endif // DEF_VendingMachine_post_SetupStock
+
+#ifndef DEF_VendingMachine_post_InsertCoint
+
+Bool vdm_VendingMachine_post_InsertCoint (const TYPE_VendingMachine_Coin &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3) {
+  const Int vdm_VendingMachine_c (var_1_1);
+  const Map _vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(vdm_VendingMachine_amount.GetValue() == (_vdm_VendingMachine_amount + vdm_VendingMachine_c).GetValue());
+}
+
+#endif // DEF_VendingMachine_post_InsertCoint
+
+#ifndef DEF_VendingMachine_pre_RegisterGoods
+
+Bool vdm_VendingMachine_pre_RegisterGoods (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Map vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  return Bool(!vdm_VendingMachine_stock.Dom().InSet(vdm_VendingMachine_g));
+}
+
+#endif // DEF_VendingMachine_pre_RegisterGoods
+
+#ifndef DEF_VendingMachine_post_RegisterGoods
+
+Bool vdm_VendingMachine_post_RegisterGoods (const TYPE_VendingMachine_Goods &var_1_1, const TYPE_VendingMachine_VendingMachine &var_2_2, const TYPE_VendingMachine_VendingMachine &var_3_3) {
+  const Token vdm_VendingMachine_g (var_1_1);
+  const Map _vdm_VendingMachine_stock (var_2_2.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map _vdm_VendingMachine_price (var_2_2.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int _vdm_VendingMachine_amount (var_2_2.GetInt(pos_VendingMachine_VendingMachine_amount));
+  const Map vdm_VendingMachine_stock (var_3_3.GetMap(pos_VendingMachine_VendingMachine_stock));
+  const Map vdm_VendingMachine_price (var_3_3.GetMap(pos_VendingMachine_VendingMachine_price));
+  const Int vdm_VendingMachine_amount (var_3_3.GetInt(pos_VendingMachine_VendingMachine_amount));
+  Bool varRes_4;
+  Map m1_12 (_vdm_VendingMachine_stock);
+  Map m2_13 (Map().Insert(vdm_VendingMachine_g, Int(0)));
+  if (!m1_12.IsCompatible(m2_13)) {
+    CGUTIL::RunTime(L"Duplicate entries had different values");
+  }
+  m1_12.ImpOverride(m2_13);
+  if (vdm_VendingMachine_stock == m1_12) {
+    Map m1_21 (_vdm_VendingMachine_price);
+    Map m2_22 (Map().Insert(vdm_VendingMachine_g, Int(0)));
+    if (!m1_21.IsCompatible(m2_22)) {
+      CGUTIL::RunTime(L"Duplicate entries had different values");
+    }
+    m1_21.ImpOverride(m2_22);
+    varRes_4 = Bool(vdm_VendingMachine_price == m1_21);
+  }
+  else {
+    varRes_4 = Bool(false);
+  }
+  return varRes_4;
+}
+
+#endif // DEF_VendingMachine_post_RegisterGoods
 
 

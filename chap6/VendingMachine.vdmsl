@@ -30,12 +30,46 @@ end
 types
   Goods = token;
   Yen = nat;
-  Coint = Yen
+  Coin = Yen
   inv c == c in set {10,50,100,500};
 
 values
 
 operations
+    RegisterGoods(g: Goods)
+    ext wr stock: map Goods to nat
+        wr price: map Goods to Yen
+    pre g not in set dom(stock)
+    post stock = stock~ munion {g |-> 0} and
+         price = price~ munion {g |-> 0};
+    
+    SetupPrice(g: Goods, p: Yen)
+    ext wr price: map Goods to Yen
+    pre g in set dom(price)
+    post price = price~ ++ {g |-> p};
+
+    SetupStock(g: Goods, num: nat)
+    ext wr stock: map Goods to nat
+    pre g in set dom(stock)
+    post stock = stock~ ++ {g |-> num};
+
+    InsertCoint(c: Coin)
+    ext wr amount: Yen
+    post amount = amount~ + c;
+
+    Purchase(g: Goods)
+    ext wr stock: map Goods to nat
+        wr amount: Yen
+        rd price: map Goods to Yen
+    pre g in set dom(stock) and
+        stock(g) > 0 and
+        amount >= price(g)
+    post stock = stock~ ++ {g |-> stock~(g) - 1} and
+         amount = amount~ - price(g);
+
+    Return()
+    ext wr amount: Yen
+    post amount = 0;
 
 functions
 

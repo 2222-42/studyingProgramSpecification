@@ -45,9 +45,41 @@ public:
 
 Bool vdm_VendingMachine_inv_VendingMachine (const TYPE_VendingMachine_VendingMachine &);
 
-Bool vdm_VendingMachine_inv_Coint (const TYPE_VendingMachine_Yen &);
+Bool vdm_VendingMachine_inv_Coin (const TYPE_VendingMachine_Yen &);
 
 void init_VendingMachine ();
+
+void vdm_VendingMachine_Return ();
+
+Bool vdm_VendingMachine_post_Return (const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+void vdm_VendingMachine_Purchase (const TYPE_VendingMachine_Goods &);
+
+Bool vdm_VendingMachine_pre_Purchase (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &);
+
+Bool vdm_VendingMachine_post_Purchase (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+void vdm_VendingMachine_SetupPrice (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_Yen &);
+
+Bool vdm_VendingMachine_pre_SetupPrice (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_Yen &, const TYPE_VendingMachine_VendingMachine &);
+
+Bool vdm_VendingMachine_post_SetupPrice (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_Yen &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+void vdm_VendingMachine_SetupStock (const TYPE_VendingMachine_Goods &, const Int &);
+
+Bool vdm_VendingMachine_pre_SetupStock (const TYPE_VendingMachine_Goods &, const Int &, const TYPE_VendingMachine_VendingMachine &);
+
+Bool vdm_VendingMachine_post_SetupStock (const TYPE_VendingMachine_Goods &, const Int &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+void vdm_VendingMachine_InsertCoint (const TYPE_VendingMachine_Coin &);
+
+Bool vdm_VendingMachine_post_InsertCoint (const TYPE_VendingMachine_Coin &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
+
+void vdm_VendingMachine_RegisterGoods (const TYPE_VendingMachine_Goods &);
+
+Bool vdm_VendingMachine_pre_RegisterGoods (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &);
+
+Bool vdm_VendingMachine_post_RegisterGoods (const TYPE_VendingMachine_Goods &, const TYPE_VendingMachine_VendingMachine &, const TYPE_VendingMachine_VendingMachine &);
 
 Bool vdm_VendingMachine_init_uVendingMachine (const TYPE_VendingMachine_VendingMachine &);
 
