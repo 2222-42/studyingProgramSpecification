@@ -66,6 +66,42 @@ types
 values
 
 operations
+    RegisterGoods(g: Goods)
+    ext wr model: Model
+    pre g not in set dom(model.stock)
+    post model = mu(model~, 
+                    stock |-> model~.stock munion {g |-> 0},
+                    price |-> model~.price munion {g |-> 0});
+
+    SetupPrice(g: Goods, p: Yen)
+    ext wr model: Model
+    pre g in set dom(model.price)
+    post model = mu(model~,
+                    price |-> model~.price ++ {g |-> p});
+
+    SetupStock(g: Goods, num: nat)
+    ext wr model: Model
+    pre g in set dom(model.stock)
+    post model = mu(model~,
+                    stock |-> model~.stock ++ {g |-> num});
+
+    InsertCoin(c: Coin)
+    ext wr model: Model
+        wr button: ButtonInfo
+    post model = mu(model~, amount |-> model~.amount + c) and
+         button = mu(button~, lamp |-> LampStatus(button.b2g, model));
+
+    Purchase(g: Goods)
+    ext wr model : Model
+    pre g in set dom(model.stock) and
+        AvailablePurchase(g, model.stock, model.price, model.amount)
+    post model = mu(model~,
+                    stock |-> model~.stock ++ {g |-> model~.stock(g) - 1},
+                    amount |-> model~.amount - model.price(g));
+
+    Return()
+    ext wr model: Model
+    post model.amount = 0;
 
 functions
     LampStatus: map Button to Goods * Model -> Lamp

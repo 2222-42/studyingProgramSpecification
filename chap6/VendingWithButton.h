@@ -150,6 +150,16 @@ void init_VendingWithButton ();
 
 type_tiM vdm_VendingWithButton_Stock (const TYPE_VendingWithButton_ColumnInfo &);
 
+void vdm_VendingWithButton_Return ();
+
+Bool vdm_VendingWithButton_post_Return (const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
+
+void vdm_VendingWithButton_Purchase (const TYPE_VendingWithButton_Goods &);
+
+Bool vdm_VendingWithButton_pre_Purchase (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_VendingMachine &);
+
+Bool vdm_VendingWithButton_post_Purchase (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
+
 type_tUM vdm_VendingWithButton_SellLamp (const type_ttM &, const TYPE_VendingWithButton_Model &);
 
 Bool vdm_VendingWithButton_pre_SellLamp (const type_ttM &, const TYPE_VendingWithButton_Model &);
@@ -160,9 +170,25 @@ Bool vdm_VendingWithButton_ExistStock (const TYPE_VendingWithButton_Goods &, con
 
 Bool vdm_VendingWithButton_pre_ExistStock (const TYPE_VendingWithButton_Goods &, const type_tiM &);
 
+void vdm_VendingWithButton_InsertCoin (const TYPE_VendingWithButton_Coin &);
+
+Bool vdm_VendingWithButton_post_InsertCoin (const TYPE_VendingWithButton_Coin &, const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
+
 TYPE_VendingWithButton_Lamp vdm_VendingWithButton_LampStatus (const type_ttM &, const TYPE_VendingWithButton_Model &);
 
 type_tUM vdm_VendingWithButton_SellStatus (const TYPE_VendingWithButton_Model &);
+
+void vdm_VendingWithButton_SetupPrice (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_Yen &);
+
+Bool vdm_VendingWithButton_pre_SetupPrice (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_Yen &, const TYPE_VendingWithButton_VendingMachine &);
+
+Bool vdm_VendingWithButton_post_SetupPrice (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_Yen &, const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
+
+void vdm_VendingWithButton_SetupStock (const TYPE_VendingWithButton_Goods &, const Int &);
+
+Bool vdm_VendingWithButton_pre_SetupStock (const TYPE_VendingWithButton_Goods &, const Int &, const TYPE_VendingWithButton_VendingMachine &);
+
+Bool vdm_VendingWithButton_post_SetupStock (const TYPE_VendingWithButton_Goods &, const Int &, const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
 
 Bool vdm_VendingWithButton_EnoughMoney (const TYPE_VendingWithButton_Goods &, const type_tiM &, const TYPE_VendingWithButton_Yen &);
 
@@ -171,6 +197,12 @@ Bool vdm_VendingWithButton_pre_EnoughMoney (const TYPE_VendingWithButton_Goods &
 type_tUM vdm_VendingWithButton_SoldOutLamp (const type_ttM &, const TYPE_VendingWithButton_Model &);
 
 Bool vdm_VendingWithButton_pre_SoldOutLamp (const type_ttM &, const TYPE_VendingWithButton_Model &);
+
+void vdm_VendingWithButton_RegisterGoods (const TYPE_VendingWithButton_Goods &);
+
+Bool vdm_VendingWithButton_pre_RegisterGoods (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_VendingMachine &);
+
+Bool vdm_VendingWithButton_post_RegisterGoods (const TYPE_VendingWithButton_Goods &, const TYPE_VendingWithButton_VendingMachine &, const TYPE_VendingWithButton_VendingMachine &);
 
 type_tUM vdm_VendingWithButton_SoldOutStatus (const TYPE_VendingWithButton_Model &);
 
