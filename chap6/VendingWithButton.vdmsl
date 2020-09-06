@@ -1,0 +1,125 @@
+--
+-- Module: VendingWithButton
+--
+-- Description: 
+--
+-- Version: 
+-- Author: 
+--
+
+module VendingWithButton
+
+--imports
+--  from ModuleA all,
+--  from ModuleB all
+
+exports all
+
+definitions
+
+state VendingMachine of
+  model: Model
+  button: ButtonInfo
+  column: ColumnInfo
+  inv mk_VendingMachine(model, button, column) ==
+    rng(button.b2g) subset dom(model.stock) and
+    button.lamp = LampStatus(button.b2g, model) and
+    model.stock = Stock(column)
+  init mk_VendingMachine(model, button, column) ==
+    model = mk_Model({|->}, {|->}, 0) and
+    button = mk_ButtonInfo({|->}, mk_Lamp({|->}, {|->})) and
+    column = mk_ColumnInfo({|->}, {|->})
+end
+
+types
+  Goods = token;
+  Yen = nat;
+  Coin = Yen
+  inv c == c in set {10,50,100,500};
+
+  Model :: stock : map Goods to nat
+           price : map Goods to Yen
+           amount: Yen
+  inv mk_Model(stock, price, -) ==
+    dom(stock) = dom(price);
+
+  OnOff = <on> | <off>;
+
+  ButtonInfo :: b2g: map Button to Goods
+                lamp: Lamp
+  inv mk_ButtonInfo(b2g, lamp) ==
+    dom(b2g) = dom(lamp.soldOut) and
+    dom(b2g) = dom(lamp.sell);
+  Button = token;
+
+  Lamp :: soldOut: map Goods to OnOff
+          sell: map Goods to OnOff
+  inv mk_Lamp(soldOut, sell) ==
+    dom(soldOut) = dom(sell);
+
+  ColumnInfo :: c2g: map Column to Goods
+                stock: map Column to nat
+  inv mk_ColumnInfo(c2g, stock) ==
+    dom(c2g) = dom(stock);
+
+  Column = token;
+values
+
+operations
+
+functions
+    LampStatus: map Button to Goods * Model -> Lamp
+    LampStatus(b2g, model) ==
+        mk_Lamp(SoldOutLamp(b2g, model), SellLamp(b2g, model));
+
+    SoldOutLamp: map Button to Goods * Model -> map Button to OnOff
+    SoldOutLamp(b2g, model) ==
+        {b |-> SoldOutStatus(model)(b2g(b)) |
+                b in set dom(b2g)
+        }
+    pre dom(b2g) subset dom(model.stock);
+
+    SoldOutStatus: Model -> map Button to OnOff
+    SoldOutStatus(mk_Model(stock, -, -)) ==
+        {g |-> if not ExistStock(g, stock) then <on> else <off> |
+                g in set dom(stock)};
+    
+    ExistStock: Goods * map Goods to nat -> bool
+    ExistStock(g, stock) ==
+        stock(g) > 0
+    pre g in set dom(stock);
+
+    SellLamp: map Button to Goods * Model -> map Button to OnOff
+    SellLamp(b2g, model) ==
+        {b |-> SellStatus(model)(b2g(b)) |
+                    b in set dom(b2g)}
+    pre dom(b2g) subset dom(model.stock);
+
+    SellStatus: Model -> map Goods to OnOff
+    SellStatus(mk_Model(stock, price, amount)) ==
+        {g |-> if AvailablePurchase(g, stock, price, amount) then <on> else <off> |
+                g in set dom(stock)};
+
+    AvailablePurchase: Goods * map Goods to nat * map Goods to Yen * Yen -> bool
+    AvailablePurchase(g, stock, price, amount) ==
+        ExistStock(g, stock) and
+        EnoughMoney(g, price,amount)
+    pre g in set dom(stock) and g in set dom(price);
+
+    EnoughMoney: Goods * map Goods to Yen * Yen -> bool
+    EnoughMoney(g, price, amount) ==
+        amount >= price(g)
+    pre g in set dom(price);
+
+    Stock: ColumnInfo -> map Goods to nat
+    Stock(column) == 
+        {g |-> SumStock(dom(column.c2g :> {g}) <: column.stock) |
+            g in set rng(column.c2g)
+        };
+
+    SumStock: map Column to nat -> nat
+    SumStock(m) ==
+        if m = {|->} then 0
+        else let i in set dom(m)
+             in m(i) + SumStock({i} <-: m);
+end VendingWithButton
